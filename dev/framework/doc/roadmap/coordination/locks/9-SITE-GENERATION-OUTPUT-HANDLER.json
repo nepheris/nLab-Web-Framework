@@ -1,0 +1,22 @@
+{
+  "task_id": "9-SITE-GENERATION-OUTPUT-HANDLER",
+  "agent": "B",
+  "status": "done",
+  "base": "a94f91abbb8f97ccd7a344458003d4143cb137a1",
+  "branch": "agent-b/site-generation-output-handler",
+  "file_scope": [
+    "dev/framework/tools/site/handlers/output-handler.mjs",
+    "dev/framework/tests/site-generation-output-handler.test.mjs",
+    "dev/framework/doc/preflight/site-generation-output-handler.md",
+    "dev/framework/doc/roadmap/coordination/locks/9-SITE-GENERATION-OUTPUT-HANDLER.json"
+  ],
+  "reserved_at": "2026-08-13T18:54:00+02:00",
+  "completed_at": "2026-08-13T19:05:00+02:00",
+  "objective": "Assembler pages.rendered, assets.prepared et routes.manifest vers web.output sous un outputRoot déclaré.",
+  "source": "PR #126 — generic site generation checklist contract",
+  "verification": {
+    "node": "site generation output handler tests: ok",
+    "human_gate": false
+  },
+  "scope_protection": "released"
+}

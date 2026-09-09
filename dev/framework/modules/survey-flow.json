@@ -1,0 +1,87 @@
+{
+  "metadata": {
+    "id": "NLAB_SURVEY_FLOW",
+    "json_type": "framework_module",
+    "scope": "framework",
+    "schema_id": "SCH_MODULE",
+    "artifact_version": "0.1.0",
+    "introduced_in": "1.14.0",
+    "status": "experimental",
+    "date_creation": "2026-09-09",
+    "date_mise_a_jour": "2026-09-09",
+    "help_id": null,
+    "category": "forms",
+    "tags": ["survey", "poll", "questionnaire", "branching", "conditional-flow", "feedback"],
+    "visibility": ["public", "dev"],
+    "supported_runtime_modes": ["static", "local", "production"],
+    "dependencies": ["NLAB_FORM_SUBMISSION", "NLAB_INPUT_PROFILES"]
+  },
+  "Data": {
+    "purpose": "Orchestrer des sondages et questionnaires multi-etapes a partir d'une definition JSON, sans dupliquer les controles de champs ni les transports de soumission du framework.",
+    "supported_modes": ["static", "local", "production"],
+    "compose": ["NLAB_FORM_SUBMISSION", "NLAB_INPUT_PROFILES", "NLAB_FIELD_RENDERERS"],
+    "definition_contract": {
+      "survey": ["id", "version", "title", "mode", "steps"],
+      "step": ["id", "type", "question"],
+      "optional_step_fields": ["description", "required", "options", "min", "max", "next", "visibility", "metadata"],
+      "flow_rule": "next may be a destination id or an ordered rule list; first matching rule wins; otherwise is the explicit fallback",
+      "condition_groups": ["all", "any"],
+      "operators": ["eq", "neq", "includes", "not_includes", "gt", "gte", "lt", "lte", "truthy", "not_empty"]
+    },
+    "question_types": [
+      "info",
+      "single_choice",
+      "multiple_choice",
+      "yes_no",
+      "rating",
+      "short_text",
+      "long_text",
+      "number"
+    ],
+    "result_policies": {
+      "hidden": "No aggregate result is rendered to respondents.",
+      "admin_only": "Results are stored but never exposed by the public respondent view.",
+      "after_submit": "Aggregate results may be shown after a successful submission.",
+      "live": "Aggregate results may be refreshed while the survey is open when the storage adapter supports reads."
+    },
+    "response_contract": {
+      "response_id": "string",
+      "survey_id": "string",
+      "survey_version": "string",
+      "submitted_at": "ISO-8601 string",
+      "context": "object",
+      "answers": "object",
+      "path": "string[]",
+      "duration_ms": "number|null"
+    },
+    "storage_adapters": {
+      "memory": {"status": "stable", "centralized": false},
+      "local_storage": {"status": "experimental", "centralized": false},
+      "http_api": {"status": "planned", "centralized": true, "compose": "NLAB_FORM_SUBMISSION.http_api"},
+      "native_http_form": {"status": "configurable", "centralized": true, "compose": "NLAB_FORM_SUBMISSION.native_http_form"},
+      "google_apps_script_sheet": {"status": "planned", "centralized": true, "transport": "http_api"}
+    },
+    "privacy_defaults": {
+      "anonymous": true,
+      "collect_personal_data": false,
+      "collect_user_agent": false,
+      "cookies": false,
+      "public_results": false,
+      "rule": "Identity and personal data collection must be explicit in the survey definition and project privacy policy."
+    },
+    "rules": [
+      "Survey definition, decision logic, view rendering and response storage are separate concerns.",
+      "Question widgets reuse framework input profiles and field renderers instead of defining duplicate primitives.",
+      "Submission transport remains owned by NLAB_FORM_SUBMISSION.",
+      "Business-specific questions belong to project data, never to the generic framework module.",
+      "All branch destinations must resolve to a step id or the reserved destination __end__.",
+      "A respondent path is recorded for diagnostics without requiring respondent identity.",
+      "Public aggregate results are opt-in, never the default."
+    ],
+    "degraded_behavior": "Without a centralized storage adapter, the runtime remains fully usable for navigation and local testing; aggregate results are explicitly labelled local-only."
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_MODULE",
+    "note": "Moteur generique de parcours de sondage; la definition des questionnaires reste dans les projets."
+  }
+}

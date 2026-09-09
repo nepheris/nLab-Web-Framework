@@ -1,103 +1,122 @@
 {
-  "poll": {
-    "id": "rdc-feature-priority-v1",
-    "version": "1.0.0",
-    "title": "Les Recettes du Cœur — sondage express",
-    "mode": "poll",
-    "ui": {"showProgress": false},
-    "results": {"policy": "after_submit", "questionId": "priority"},
-    "completed": {
-      "title": "Vote enregistré",
-      "message": "Merci. Le résultat affiché dans ce POC correspond uniquement aux votes stockés dans ce navigateur."
-    },
-    "steps": [
-      {
-        "id": "priority",
-        "type": "single_choice",
-        "question": "Quelle amélioration vous serait la plus utile ?",
-        "required": true,
-        "options": [
-          {"value": "search", "label": "Une recherche plus simple et plus précise"},
-          {"value": "ingredients", "label": "« J’ai ces ingrédients » pour trouver une recette"},
-          {"value": "multilingual", "label": "Davantage de langues"},
-          {"value": "tips", "label": "Davantage d’astuces anti-gaspi"}
-        ],
-        "next": "__end__"
-      }
-    ]
+  "metadata": {
+    "id": "DEMO_SURVEY_FLOW_RDC_CONFIG",
+    "json_type": "framework_component_config",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "0.1.1",
+    "introduced_in": "1.14.0",
+    "status": "experimental",
+    "date_creation": "2026-09-09",
+    "date_mise_a_jour": "2026-09-09",
+    "visibility": ["dev"],
+    "supported_runtime_modes": ["static", "local", "production"]
   },
-  "feedback": {
-    "id": "rdc-recipe-feedback-v1",
-    "version": "1.0.0",
-    "title": "Les Recettes du Cœur — retour utilisateur",
-    "mode": "wizard",
-    "ui": {"showProgress": true},
-    "results": {"policy": "admin_only"},
-    "completed": {
-      "title": "Merci pour votre retour",
-      "message": "Vos réponses aideront à améliorer les recettes et leur présentation."
+  "Data": {
+    "poll": {
+      "id": "rdc-feature-priority-v1",
+      "version": "1.0.0",
+      "title": "Les Recettes du Cœur — sondage express",
+      "mode": "poll",
+      "ui": {"showProgress": false},
+      "results": {"policy": "after_submit", "questionId": "priority"},
+      "completed": {
+        "title": "Vote enregistré",
+        "message": "Merci. Le résultat affiché dans ce POC correspond uniquement aux votes stockés dans ce navigateur."
+      },
+      "steps": [
+        {
+          "id": "priority",
+          "type": "single_choice",
+          "question": "Quelle amélioration vous serait la plus utile ?",
+          "required": true,
+          "options": [
+            {"value": "search", "label": "Une recherche plus simple et plus précise"},
+            {"value": "ingredients", "label": "« J’ai ces ingrédients » pour trouver une recette"},
+            {"value": "multilingual", "label": "Davantage de langues"},
+            {"value": "tips", "label": "Davantage d’astuces anti-gaspi"}
+          ],
+          "next": "__end__"
+        }
+      ]
     },
-    "steps": [
-      {
-        "id": "cooked",
-        "type": "single_choice",
-        "question": "Avez-vous déjà cuisiné une recette du site ?",
-        "required": true,
-        "options": [
-          {"value": "yes", "label": "Oui", "next": "clarity"},
-          {"value": "no", "label": "Pas encore", "next": "barrier"}
-        ]
+    "feedback": {
+      "id": "rdc-recipe-feedback-v1",
+      "version": "1.0.0",
+      "title": "Les Recettes du Cœur — retour utilisateur",
+      "mode": "wizard",
+      "ui": {"showProgress": true},
+      "results": {"policy": "admin_only"},
+      "completed": {
+        "title": "Merci pour votre retour",
+        "message": "Vos réponses aideront à améliorer les recettes et leur présentation."
       },
-      {
-        "id": "clarity",
-        "type": "rating",
-        "question": "La recette était-elle facile à suivre ?",
-        "description": "1 = difficile · 5 = très facile",
-        "required": true,
-        "options": [
-          {"value": "1", "label": "1"},
-          {"value": "2", "label": "2"},
-          {"value": "3", "label": "3"},
-          {"value": "4", "label": "4"},
-          {"value": "5", "label": "5"}
-        ],
-        "next": "quantities"
-      },
-      {
-        "id": "quantities",
-        "type": "single_choice",
-        "question": "Les quantités vous ont-elles semblé adaptées ?",
-        "required": true,
-        "options": [
-          {"value": "correct", "label": "Oui, adaptées"},
-          {"value": "too_much", "label": "Plutôt trop importantes"},
-          {"value": "not_enough", "label": "Plutôt insuffisantes"}
-        ],
-        "next": "comment"
-      },
-      {
-        "id": "barrier",
-        "type": "single_choice",
-        "question": "Qu’est-ce qui vous aiderait le plus à essayer une recette ?",
-        "required": true,
-        "options": [
-          {"value": "simpler", "label": "Des recettes encore plus simples"},
-          {"value": "photos", "label": "Plus de photos ou d’illustrations"},
-          {"value": "steps", "label": "Des étapes plus détaillées"},
-          {"value": "ingredients", "label": "Trouver une recette avec les ingrédients disponibles"},
-          {"value": "other", "label": "Autre chose"}
-        ],
-        "next": "comment"
-      },
-      {
-        "id": "comment",
-        "type": "long_text",
-        "question": "Un commentaire ou une suggestion ?",
-        "description": "Facultatif. N’indiquez pas d’information personnelle dans ce POC.",
-        "required": false,
-        "placeholder": "Votre suggestion…",
-        "next": "__end__"
-      }
-    ]
+      "steps": [
+        {
+          "id": "cooked",
+          "type": "single_choice",
+          "question": "Avez-vous déjà cuisiné une recette du site ?",
+          "required": true,
+          "options": [
+            {"value": "yes", "label": "Oui", "next": "clarity"},
+            {"value": "no", "label": "Pas encore", "next": "barrier"}
+          ]
+        },
+        {
+          "id": "clarity",
+          "type": "rating",
+          "question": "La recette était-elle facile à suivre ?",
+          "description": "1 = difficile · 5 = très facile",
+          "required": true,
+          "options": [
+            {"value": "1", "label": "1"},
+            {"value": "2", "label": "2"},
+            {"value": "3", "label": "3"},
+            {"value": "4", "label": "4"},
+            {"value": "5", "label": "5"}
+          ],
+          "next": "quantities"
+        },
+        {
+          "id": "quantities",
+          "type": "single_choice",
+          "question": "Les quantités vous ont-elles semblé adaptées ?",
+          "required": true,
+          "options": [
+            {"value": "correct", "label": "Oui, adaptées"},
+            {"value": "too_much", "label": "Plutôt trop importantes"},
+            {"value": "not_enough", "label": "Plutôt insuffisantes"}
+          ],
+          "next": "comment"
+        },
+        {
+          "id": "barrier",
+          "type": "single_choice",
+          "question": "Qu’est-ce qui vous aiderait le plus à essayer une recette ?",
+          "required": true,
+          "options": [
+            {"value": "simpler", "label": "Des recettes encore plus simples"},
+            {"value": "photos", "label": "Plus de photos ou d’illustrations"},
+            {"value": "steps", "label": "Des étapes plus détaillées"},
+            {"value": "ingredients", "label": "Trouver une recette avec les ingrédients disponibles"},
+            {"value": "other", "label": "Autre chose"}
+          ],
+          "next": "comment"
+        },
+        {
+          "id": "comment",
+          "type": "long_text",
+          "question": "Un commentaire ou une suggestion ?",
+          "description": "Facultatif. N’indiquez pas d’information personnelle dans ce POC.",
+          "required": false,
+          "placeholder": "Votre suggestion…",
+          "next": "__end__"
+        }
+      ]
+    }
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "Données de démonstration métier P002, séparées du moteur générique Survey Flow."
   }
 }

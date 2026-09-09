@@ -33,7 +33,8 @@
     async function boot() {
       const response = await fetch('./recettes-du-coeur-surveys.json');
       if (!response.ok) throw new Error('Impossible de charger les définitions de sondage.');
-      configs = await response.json();
+      const artifact = await response.json();
+      configs = artifact.Data;
       launch(current);
     }
 

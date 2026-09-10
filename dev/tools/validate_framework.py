@@ -23,8 +23,11 @@ ROOT = Path(__file__).resolve().parents[2]
 FW = ROOT / "dev" / "framework"
 MANIFEST_PATH = FW / "framework-manifest.json"
 HELP_ID_RE = re.compile(r'data-help-id\s*=\s*["\']([^"\']+)["\']')
-ICON_OBJECT_RE = re.compile(r'\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*svg\(')
-ICON_ASSIGN_RE = re.compile(r'\bicons\.([A-Za-z][A-Za-z0-9_]*)\s*=\s*svg\(')
+# Runtime icons may be created directly with svg(...) or through the local
+# file(...) helper in icons-export.js. Both produce final SVG strings and are
+# therefore valid runtime implementations of a registered icon.
+ICON_OBJECT_RE = re.compile(r'\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*(?:svg|file)\(')
+ICON_ASSIGN_RE = re.compile(r'\bicons\.([A-Za-z][A-Za-z0-9_]*)\s*=\s*(?:svg|file)\(')
 REQUIRED_V2 = {"id","json_type","scope","schema_id","artifact_version","introduced_in","status","date_creation","date_mise_a_jour","visibility","supported_runtime_modes"}
 
 

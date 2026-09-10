@@ -1,0 +1,208 @@
+name: Recettes du Coeur - validation externe
+
+on:
+  push:
+    branches:
+      - chore/rdc-site-validation-2026-09-10
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-rdc-site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout validation harness
+        uses: actions/checkout@v4
+
+      - name: Checkout Recettes du Coeur public site
+        run: |
+          git clone --depth 1 https://github.com/recettesducoeur/recettesducoeur.github.io.git "$RUNNER_TEMP/rdc-site"
+          cd "$RUNNER_TEMP/rdc-site"
+          echo "RDC_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "RDC_ROOT=$RUNNER_TEMP/rdc-site" >> "$GITHUB_ENV"
+
+      - name: Static syntax and reference validation
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RDC_ROOT"
+          python3 - <<'PY'
+          from __future__ import annotations
+          import json, pathlib, py_compile, re, subprocess, sys
+          from html.parser import HTMLParser
+          from urllib.parse import unquote, urlsplit
+
+          root = pathlib.Path('.').resolve()
+          errors = []
+          warnings = []
+          counts = {"json": 0, "javascript": 0, "python": 0, "shell": 0, "html": 0, "references": 0}
+
+          ignored_parts = {'.git', '__pycache__'}
+          def files(ext):
+              for p in root.rglob(f'*{ext}'):
+                  if not any(part in ignored_parts for part in p.parts):
+                      yield p
+
+          for p in files('.json'):
+              counts['json'] += 1
+              try:
+                  json.loads(p.read_text(encoding='utf-8'))
+              except Exception as exc:
+                  errors.append({"kind": "json", "path": str(p.relative_to(root)), "message": str(exc)})
+
+          for p in files('.py'):
+              counts['python'] += 1
+              try:
+                  py_compile.compile(str(p), doraise=True)
+              except Exception as exc:
+                  errors.append({"kind": "python", "path": str(p.relative_to(root)), "message": str(exc)})
+
+          for p in files('.js'):
+              counts['javascript'] += 1
+              proc = subprocess.run(['node', '--check', str(p)], text=True, capture_output=True)
+              if proc.returncode:
+                  errors.append({"kind": "javascript", "path": str(p.relative_to(root)), "message": (proc.stderr or proc.stdout).strip()})
+
+          for p in files('.sh'):
+              counts['shell'] += 1
+              proc = subprocess.run(['bash', '-n', str(p)], text=True, capture_output=True)
+              if proc.returncode:
+                  errors.append({"kind": "shell", "path": str(p.relative_to(root)), "message": (proc.stderr or proc.stdout).strip()})
+
+          class Refs(HTMLParser):
+              def __init__(self):
+                  super().__init__()
+                  self.refs = []
+              def handle_starttag(self, tag, attrs):
+                  d = dict(attrs)
+                  for key in ('href', 'src', 'poster'):
+                      if d.get(key): self.refs.append((tag, key, d[key]))
+                  if d.get('srcset'):
+                      for item in d['srcset'].split(','):
+                          value = item.strip().split(' ')[0]
+                          if value: self.refs.append((tag, 'srcset', value))
+
+          skip_prefix = ('http://','https://','//','mailto:','tel:','data:','blob:','javascript:','#')
+          template_markers = ('{{','}}','${','<%','%>')
+          for p in files('.html'):
+              counts['html'] += 1
+              parser = Refs()
+              try:
+                  parser.feed(p.read_text(encoding='utf-8', errors='replace'))
+              except Exception as exc:
+                  warnings.append({"kind":"html-parse","path":str(p.relative_to(root)),"message":str(exc)})
+                  continue
+              for tag, attr, raw in parser.refs:
+                  value = raw.strip()
+                  if not value or value.startswith(skip_prefix) or any(x in value for x in template_markers):
+                      continue
+                  pathpart = unquote(urlsplit(value).path)
+                  if not pathpart or pathpart == '/':
+                      continue
+                  candidate = (root / pathpart.lstrip('/')) if pathpart.startswith('/') else (p.parent / pathpart)
+                  candidate = candidate.resolve()
+                  try:
+                      candidate.relative_to(root)
+                  except ValueError:
+                      warnings.append({"kind":"reference-outside-root","path":str(p.relative_to(root)),"message":value})
+                      continue
+                  counts['references'] += 1
+                  if candidate.exists():
+                      continue
+                  if candidate.suffix == '' and (candidate / 'index.html').exists():
+                      continue
+                  # Local anchors/pages/assets that are statically referenced should resolve.
+                  errors.append({"kind":"missing-reference","path":str(p.relative_to(root)),"message":value})
+
+          report = {"status": "FAIL" if errors else "PASS", "counts": counts, "errors": errors, "warnings": warnings}
+          out = root / 'dev/reports/validation_external_latest.json'
+          out.parent.mkdir(parents=True, exist_ok=True)
+          out.write_text(json.dumps(report, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
+          print(json.dumps({"status": report['status'], "counts": counts, "errors": len(errors), "warnings": len(warnings)}, ensure_ascii=False, indent=2))
+          for item in errors[:100]: print('ERROR', item)
+          if len(errors) > 100: print(f'... {len(errors)-100} additional errors')
+          sys.exit(1 if errors else 0)
+          PY
+
+      - name: Existing domain validators
+        if: always()
+        shell: bash
+        run: |
+          set +e
+          cd "$RDC_ROOT"
+          failures=0
+          scripts=(
+            dev/tools/valider_registres_v72.py
+            dev/tools/valider_ingredients_v72.py
+            dev/tools/valider_recettes_v72.py
+            dev/tools/valider_astuces_v72.py
+            dev/tools/valider_moteur_dev_v72.py
+            dev/tools/verifier_chemins.py
+            dev/tools/verifier_collisions.py
+            dev/tools/verifier_referentiels.py
+            dev/tools/auditer_architecture_templates.py
+            dev/tools/auditer_briques_alimentaires_v72.py
+            dev/tools/auditer_factorisation_ui.py
+            dev/tools/auditer_migration_v72.py
+            dev/tools/auditer_seo_v33.py
+          )
+          for script in "${scripts[@]}"; do
+            if [[ ! -f "$script" ]]; then
+              echo "::warning::$script absent"
+              continue
+            fi
+            echo "### $script"
+            timeout 120s python3 "$script"
+            rc=$?
+            if [[ $rc -ne 0 ]]; then
+              echo "::error::$script failed (exit $rc)"
+              failures=$((failures+1))
+            fi
+          done
+          echo "validator_failures=$failures"
+          exit "$failures"
+
+      - name: Local HTTP smoke test
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RDC_ROOT"
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/rdc-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid 2>/dev/null || true' EXIT
+          sleep 2
+          python3 - <<'PY'
+          import pathlib, urllib.request
+          root = pathlib.Path('.').resolve()
+          pages = ['index.html', '404.html']
+          for candidate in ['recettes.html','astuces.html','ingredients.html','actualites.html','recettes/index.html','astuces/index.html','ingredients/index.html']:
+              if (root/candidate).exists(): pages.append(candidate)
+          # Sample up to 5 concrete recipe pages when available.
+          pages += [str(p.relative_to(root)) for p in sorted((root/'recettes').glob('*.html'))[:5]] if (root/'recettes').exists() else []
+          failures=[]
+          for page in dict.fromkeys(pages):
+              url='http://127.0.0.1:8765/' + page
+              try:
+                  with urllib.request.urlopen(url, timeout=10) as r:
+                      body=r.read()
+                      print(r.status, page, len(body))
+                      if r.status != 200 or not body: failures.append(page)
+              except Exception as exc:
+                  print('FAIL', page, exc); failures.append(page)
+          if failures: raise SystemExit('HTTP smoke failures: ' + ', '.join(failures))
+          PY
+
+      - name: Upload validation report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rdc-site-validation-${{ env.RDC_COMMIT }}
+          path: |
+            ${{ env.RDC_ROOT }}/dev/reports/**/*.json
+            /tmp/rdc-http.log
+          if-no-files-found: warn
+          retention-days: 14

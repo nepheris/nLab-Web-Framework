@@ -35,3 +35,120 @@ jobs:
 
       - name: Test generated documentation
         run: python dev/tools/generate_framework_docs.py
+
+  validate-rdc-site:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - name: Checkout validation harness
+        uses: actions/checkout@v4
+
+      - name: Checkout Recettes du Coeur public site
+        run: |
+          git clone --depth 1 https://github.com/recettesducoeur/recettesducoeur.github.io.git "$RUNNER_TEMP/rdc-site"
+          cd "$RUNNER_TEMP/rdc-site"
+          echo "RDC_COMMIT=$(git rev-parse HEAD)" >> "$GITHUB_ENV"
+          echo "RDC_ROOT=$RUNNER_TEMP/rdc-site" >> "$GITHUB_ENV"
+          echo "### Site audité" >> "$GITHUB_STEP_SUMMARY"
+          echo "Commit: \`$(git rev-parse HEAD)\`" >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Static syntax and local-reference validation
+        id: static
+        continue-on-error: true
+        run: python dev/tools/validate_rdc_site_external.py "$RDC_ROOT" --report "$RDC_ROOT/dev/reports/validation_external_latest.json"
+
+      - name: Existing domain validators
+        id: domain
+        continue-on-error: true
+        shell: bash
+        run: |
+          set +e
+          cd "$RDC_ROOT"
+          failures=0
+          scripts=(
+            dev/tools/valider_registres_v72.py
+            dev/tools/valider_ingredients_v72.py
+            dev/tools/valider_recettes_v72.py
+            dev/tools/valider_astuces_v72.py
+            dev/tools/valider_moteur_dev_v72.py
+            dev/tools/verifier_chemins.py
+            dev/tools/verifier_collisions.py
+            dev/tools/verifier_referentiels.py
+            dev/tools/auditer_architecture_templates.py
+            dev/tools/auditer_briques_alimentaires_v72.py
+            dev/tools/auditer_factorisation_ui.py
+            dev/tools/auditer_migration_v72.py
+            dev/tools/auditer_seo_v33.py
+          )
+          for script in "${scripts[@]}"; do
+            if [[ ! -f "$script" ]]; then
+              echo "::warning::$script absent"
+              continue
+            fi
+            echo "### $script"
+            timeout 120s python3 "$script"
+            rc=$?
+            if [[ $rc -ne 0 ]]; then
+              echo "::error::$script failed (exit $rc)"
+              failures=$((failures+1))
+            fi
+          done
+          echo "validator_failures=$failures" >> "$GITHUB_OUTPUT"
+          echo "Validateurs métier en échec: $failures" >> "$GITHUB_STEP_SUMMARY"
+          exit "$failures"
+
+      - name: Local HTTP smoke test
+        id: http
+        continue-on-error: true
+        shell: bash
+        run: |
+          set -euo pipefail
+          cd "$RDC_ROOT"
+          python3 -m http.server 8765 --bind 127.0.0.1 > /tmp/rdc-http.log 2>&1 &
+          server_pid=$!
+          trap 'kill $server_pid 2>/dev/null || true' EXIT
+          sleep 2
+          python3 - <<'PY'
+          import pathlib, urllib.request
+          root = pathlib.Path('.').resolve()
+          pages = ['index.html', '404.html']
+          for candidate in ['recettes.html','astuces.html','ingredients.html','actualites.html','recettes/index.html','astuces/index.html','ingredients/index.html']:
+              if (root/candidate).exists(): pages.append(candidate)
+          if (root/'recettes').exists():
+              pages += [str(p.relative_to(root)) for p in sorted((root/'recettes').glob('*.html'))[:5]]
+          failures=[]
+          for page in dict.fromkeys(pages):
+              url='http://127.0.0.1:8765/' + page
+              try:
+                  with urllib.request.urlopen(url, timeout=10) as response:
+                      body=response.read()
+                      print(response.status, page, len(body))
+                      if response.status != 200 or not body: failures.append(page)
+              except Exception as exc:
+                  print('FAIL', page, exc)
+                  failures.append(page)
+          if failures:
+              raise SystemExit('HTTP smoke failures: ' + ', '.join(failures))
+          PY
+
+      - name: Upload validation reports
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: rdc-site-validation-${{ env.RDC_COMMIT }}
+          path: |
+            ${{ env.RDC_ROOT }}/dev/reports/**/*.json
+            /tmp/rdc-http.log
+          if-no-files-found: warn
+          retention-days: 14
+
+      - name: Final validation gate
+        if: always()
+        shell: bash
+        run: |
+          echo "Static: ${{ steps.static.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "Domain: ${{ steps.domain.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          echo "HTTP: ${{ steps.http.outcome }}" >> "$GITHUB_STEP_SUMMARY"
+          if [[ "${{ steps.static.outcome }}" != "success" || "${{ steps.domain.outcome }}" != "success" || "${{ steps.http.outcome }}" != "success" ]]; then
+            exit 1
+          fi

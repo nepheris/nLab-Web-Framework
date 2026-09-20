@@ -4,7 +4,7 @@
     "json_type": "framework_module",
     "scope": "framework",
     "schema_id": "SCH_MODULE",
-    "artifact_version": "1.0.1",
+    "artifact_version": "1.1.0",
     "introduced_in": "1.14.0",
     "status": "experimental",
     "date_creation": "2026-09-20",
@@ -48,16 +48,29 @@
       "verification_cache_seconds": 300
     },
     "rules": [
-      "The Google ID token is used only to establish identity and is not reused as the application session token.",
       "The application session token is random, opaque and stored server-side by hash.",
       "No password, OAuth secret or raw Google ID token is persisted in project data.",
-      "Session expiry or cache eviction fails closed and requires a new login."
+      "Session expiry or cache eviction fails closed and requires a new login.",
+      "Apps Script-hosted managers should prefer apps_script_active_user and same-origin google.script.run calls.",
+      "All tunable identity/session/cache values come from the project's central config.json."
     ],
     "nlab_reuse": {
       "related_brick": "BRK88-apps-script-session-guard",
       "reuse_rule": "Reuse BRK88 for Apps Script HtmlService/google.script.run user-context sessions. This module is the complementary adapter for an external static web client that establishes identity with Google Identity Services and then exchanges it for an opaque Apps Script API session.",
       "duplication_guard": "Do not create another same-context session brick; promote this external-client adapter only after project validation."
-    }
+    },
+    "identity_providers": {
+      "apps_script_active_user": {
+        "status": "preferred_for_apps_script_webapp",
+        "requirement": "deploy web app as USER_ACCESSING",
+        "source": "Session.getActiveUser().getEmail()"
+      },
+      "google_identity_services": {
+        "status": "optional_external_client",
+        "source": "verified Google ID token"
+      }
+    },
+    "configuration_source": "project config.json -> security.identity/security.session/security.cache"
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_MODULE",

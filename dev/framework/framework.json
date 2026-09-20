@@ -1,5 +1,177 @@
 {
-  "metadata":{"id":"NLAB_FRAMEWORK","json_type":"framework_definition","scope":"framework","schema_id":"SCH_ARTIFACT","artifact_version":"2.4.1","introduced_in":"1.0.0","status":"stable","date_creation":"2026-08-08","date_mise_a_jour":"2026-08-09","help_id":"HELP_FRAMEWORK","category":"core","tags":["framework","definition"],"visibility":["public","dev"],"supported_runtime_modes":["static","local","production"],"dependencies":["NLAB_FRAMEWORK_MANIFEST","NLAB_COMPOSITION_ENGINE","NLAB_VALUE_RESOLUTION","NLAB_DATA_ACCESS_CONTRACT","NLAB_CLIENT_STORAGE_POLICY","NLAB_PERSONAL_STORAGE_CONTRACT","NLAB_DESIGN_TOKENS","NLAB_HELP_REGISTRY"]},
-  "Data":{"name":"framework nLab","manifest_key":"framework_manifest","canonical_sources":"framework-manifest.json#Data.canonical","architecture_status":"stable","implementation_status":"development","principles":["static_first","data_driven","mobile_first","provider_agnostic","storage_agnostic","visualization_engine_agnostic","configuration_driven","progressive_enhancement","accessibility_by_design","composable_by_default","runtime_agnostic","compute_decoupled","convention_over_configuration","stable_logical_ids","centralized_path_resolution","traceable_generation","standards_first_integrations","centralized_interaction_chrome","single_source_of_truth","schema_governed","metadata_driven_documentation","layered_contextual_help","explicit_override_without_duplication","editorial_technical_separation","privacy_by_default","optional_persistence","user_owned_private_data","capability_degradation"],"runtime":{"primary_local_engine":"python","browser_runtime":"javascript","platform_launchers":["linux_sh","windows_bat","macos_sh"],"runtime_modes_key":"runtime_modes","experience_modes_key":"experience_modes","data_access_key":"data_access_contract"},"configuration":{"value_resolution_key":"value_resolution","resolvable_value_schema_key":"resolvable_value_schema","editorial_schema_key":"editorial_schema","rule":"Ordinary values stay simple; only automatically-derived values that need explicit forcing use the resolvable-value contract."},"composition":{"engine_key":"composition_engine","order":["framework_defaults","preset","theme","template","components","project_configuration","business_data","experience_mode"]},"registry_keys":["schema_registry","json_type_catalog","component_registry","icon_registry","button_registry","theme_registry","provider_registry","help_registry"],"theme_keys":["design_tokens","theme_registry","theme_engine","button_templates"],"documentation_keys":["help_contract","help_registry","auto_documentation"],"governance_keys":["reference_validator"],"data_keys":["data_access_contract","data_provider_catalog","client_storage_policy","client_persistence","personal_storage","form_submission"],"capability_groups":["ui_components","generic_infrastructure","scheduling_meetings","controls_feedback","forms_media_persistence"],"rules":["This definition describes framework behavior and principles, not canonical file paths.","Canonical paths are resolved exclusively through framework-manifest.json.","Component/module membership is resolved through registries rather than repeated pack file lists.","Visual defaults belong to themes/presets or their domain registry, not framework core.","Storage/backend details are isolated behind the data-access contract and adapters.","Project and business data never redefine framework registries.","Free editorial content belongs to project/source public data; technical framework files use only concise purpose/description/notes when needed.","Public static rendering remains usable when persistence, microphone capture or personal storage are unavailable.","Private user data is loaded as a runtime overlay and is never generated into public static artifacts.","No cookie or persistent client storage is enabled merely for convenience when memory or explicit export is sufficient.","Specialized defaults are resolved from their canonical domain contracts and are never repeated here."]},
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_ARTIFACT","note":"La v1.8 ajoute capture média, brouillons optionnels et stockage privé en surcouche sans remettre en cause le statique-first."}
+  "metadata": {
+    "id": "NLAB_FRAMEWORK",
+    "json_type": "framework_definition",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "2.5.0",
+    "introduced_in": "1.0.0",
+    "status": "stable",
+    "date_creation": "2026-08-08",
+    "date_mise_a_jour": "2026-09-20",
+    "help_id": "HELP_FRAMEWORK",
+    "category": "core",
+    "tags": [
+      "framework",
+      "definition"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "NLAB_FRAMEWORK_MANIFEST",
+      "NLAB_COMPOSITION_ENGINE",
+      "NLAB_VALUE_RESOLUTION",
+      "NLAB_DATA_ACCESS_CONTRACT",
+      "NLAB_CLIENT_STORAGE_POLICY",
+      "NLAB_PERSONAL_STORAGE_CONTRACT",
+      "NLAB_DESIGN_TOKENS",
+      "NLAB_HELP_REGISTRY",
+      "NLAB_ACCESS_CONTROL_RBAC",
+      "NLAB_AUTH_SESSION_GOOGLE",
+      "NLAB_REQUEST_RATE_LIMIT",
+      "NLAB_APPS_SCRIPT_SECURITY_GATEWAY"
+    ]
+  },
+  "Data": {
+    "name": "framework nLab",
+    "manifest_key": "framework_manifest",
+    "canonical_sources": "framework-manifest.json#Data.canonical",
+    "architecture_status": "stable",
+    "implementation_status": "development",
+    "principles": [
+      "static_first",
+      "data_driven",
+      "mobile_first",
+      "provider_agnostic",
+      "storage_agnostic",
+      "visualization_engine_agnostic",
+      "configuration_driven",
+      "progressive_enhancement",
+      "accessibility_by_design",
+      "composable_by_default",
+      "runtime_agnostic",
+      "compute_decoupled",
+      "convention_over_configuration",
+      "stable_logical_ids",
+      "centralized_path_resolution",
+      "traceable_generation",
+      "standards_first_integrations",
+      "centralized_interaction_chrome",
+      "single_source_of_truth",
+      "schema_governed",
+      "metadata_driven_documentation",
+      "layered_contextual_help",
+      "explicit_override_without_duplication",
+      "editorial_technical_separation",
+      "privacy_by_default",
+      "optional_persistence",
+      "user_owned_private_data",
+      "capability_degradation",
+      "deny_by_default",
+      "server_authoritative_authorization",
+      "short_lived_sessions"
+    ],
+    "runtime": {
+      "primary_local_engine": "python",
+      "browser_runtime": "javascript",
+      "platform_launchers": [
+        "linux_sh",
+        "windows_bat",
+        "macos_sh"
+      ],
+      "runtime_modes_key": "runtime_modes",
+      "experience_modes_key": "experience_modes",
+      "data_access_key": "data_access_contract"
+    },
+    "configuration": {
+      "value_resolution_key": "value_resolution",
+      "resolvable_value_schema_key": "resolvable_value_schema",
+      "editorial_schema_key": "editorial_schema",
+      "rule": "Ordinary values stay simple; only automatically-derived values that need explicit forcing use the resolvable-value contract."
+    },
+    "composition": {
+      "engine_key": "composition_engine",
+      "order": [
+        "framework_defaults",
+        "preset",
+        "theme",
+        "template",
+        "components",
+        "project_configuration",
+        "business_data",
+        "experience_mode"
+      ]
+    },
+    "registry_keys": [
+      "schema_registry",
+      "json_type_catalog",
+      "component_registry",
+      "icon_registry",
+      "button_registry",
+      "theme_registry",
+      "provider_registry",
+      "help_registry"
+    ],
+    "theme_keys": [
+      "design_tokens",
+      "theme_registry",
+      "theme_engine",
+      "button_templates"
+    ],
+    "documentation_keys": [
+      "help_contract",
+      "help_registry",
+      "auto_documentation"
+    ],
+    "governance_keys": [
+      "reference_validator"
+    ],
+    "data_keys": [
+      "data_access_contract",
+      "data_provider_catalog",
+      "client_storage_policy",
+      "client_persistence",
+      "personal_storage",
+      "form_submission",
+      "access_control_rbac",
+      "auth_session_google",
+      "request_rate_limit",
+      "apps_script_security_gateway"
+    ],
+    "capability_groups": [
+      "ui_components",
+      "generic_infrastructure",
+      "scheduling_meetings",
+      "controls_feedback",
+      "forms_media_persistence",
+      "security_access_control"
+    ],
+    "rules": [
+      "This definition describes framework behavior and principles, not canonical file paths.",
+      "Canonical paths are resolved exclusively through framework-manifest.json.",
+      "Component/module membership is resolved through registries rather than repeated pack file lists.",
+      "Visual defaults belong to themes/presets or their domain registry, not framework core.",
+      "Storage/backend details are isolated behind the data-access contract and adapters.",
+      "Project and business data never redefine framework registries.",
+      "Free editorial content belongs to project/source public data; technical framework files use only concise purpose/description/notes when needed.",
+      "Public static rendering remains usable when persistence, microphone capture or personal storage are unavailable.",
+      "Private user data is loaded as a runtime overlay and is never generated into public static artifacts.",
+      "No cookie or persistent client storage is enabled merely for convenience when memory or explicit export is sufficient.",
+      "Specialized defaults are resolved from their canonical domain contracts and are never repeated here.",
+      "Authentication and authorization are separate concerns; server-side authorization is authoritative.",
+      "Private project identities, roles and permissions are runtime data and are never emitted into public static builds.",
+      "Remote provider calls are aggregated and rate-limited; one remote call per keystroke is prohibited."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "La v1.14 ajoute identité Google, sessions opaques, RBAC et limitation de débit comme capacités réutilisables du framework."
+  }
 }

@@ -1,11 +1,28 @@
 /**
- * nLab Web Framework — Google Identity -> opaque application session.
+ * nLab Web Framework — Google/Apps Script identity -> opaque application session.
+ *
+ * Supported identity providers:
+ * - apps_script_active_user: preferred for an Apps Script Web App deployed as USER_ACCESSING.
+ * - google_identity_services: optional for external/static clients that can supply a Google ID token.
+ *
  * All runtime parameters come from the project's central config.json.
  */
 var NLabAuthSession = (function () {
   'use strict';
 
-  function verifyGoogleIdToken(idToken) {
+  function activeUserIdentity_() {
+    var email = NLabSecurityCore.normalizeEmail(Session.getActiveUser().getEmail());
+    if (!email) {
+      throw NLabSecurityCore.error(
+        'identity_email_unavailable',
+        'Google account identity is unavailable. Deploy the Web App as user accessing the web app and require authorization.',
+        401
+      );
+    }
+    return { email: email, name: '', sub: '' };
+  }
+
+  function verifyGoogleIdToken_(idToken) {
     if (!idToken) throw NLabSecurityCore.error('id_token_missing', 'Google ID token is required.', 401);
 
     var sec = NLabSecurityCore.securityConfig(false);
@@ -44,6 +61,13 @@ var NLabAuthSession = (function () {
     var verifyTtl = NLabSecurityCore.number('cache.identity_verification_seconds', 300, 1);
     cache.put(cacheKey, JSON.stringify(identity), Math.min(Math.floor(verifyTtl), 600));
     return identity;
+  }
+
+  function resolveIdentity(idToken) {
+    var provider = String(NLabSecurityCore.value('identity.provider', 'apps_script_active_user'));
+    if (provider === 'apps_script_active_user') return activeUserIdentity_();
+    if (provider === 'google_identity_services') return verifyGoogleIdToken_(idToken);
+    throw NLabSecurityCore.error('identity_provider_unsupported', 'Unsupported identity provider: ' + provider, 500);
   }
 
   function createSession(identity, principal) {
@@ -94,7 +118,7 @@ var NLabAuthSession = (function () {
   }
 
   return {
-    verifyGoogleIdToken: verifyGoogleIdToken,
+    resolveIdentity: resolveIdentity,
     createSession: createSession,
     readSession: readSession,
     logout: logout

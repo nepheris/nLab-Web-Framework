@@ -4,16 +4,27 @@
     "json_type": "framework_module",
     "scope": "framework",
     "schema_id": "SCH_MODULE",
-    "artifact_version": "1.0.0",
+    "artifact_version": "1.0.1",
     "introduced_in": "1.14.0",
     "status": "experimental",
     "date_creation": "2026-09-20",
     "date_mise_a_jour": "2026-09-20",
     "help_id": "HELP_AUTH_SESSION_GOOGLE",
     "category": "security",
-    "tags": ["security", "google-identity", "session", "opaque-token", "apps-script"],
-    "visibility": ["dev"],
-    "supported_runtime_modes": ["production", "local"]
+    "tags": [
+      "security",
+      "google-identity",
+      "session",
+      "opaque-token",
+      "apps-script"
+    ],
+    "visibility": [
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "production",
+      "local"
+    ]
   },
   "Data": {
     "purpose": "Échanger une identité Google vérifiée contre une session applicative opaque de courte durée, sans conserver le jeton Google dans le navigateur.",
@@ -28,7 +39,12 @@
     },
     "verification": {
       "id_token_endpoint": "https://oauth2.googleapis.com/tokeninfo",
-      "required_checks": ["audience", "email", "email_verified", "expiration"],
+      "required_checks": [
+        "audience",
+        "email",
+        "email_verified",
+        "expiration"
+      ],
       "verification_cache_seconds": 300
     },
     "rules": [
@@ -36,7 +52,12 @@
       "The application session token is random, opaque and stored server-side by hash.",
       "No password, OAuth secret or raw Google ID token is persisted in project data.",
       "Session expiry or cache eviction fails closed and requires a new login."
-    ]
+    ],
+    "nlab_reuse": {
+      "related_brick": "BRK88-apps-script-session-guard",
+      "reuse_rule": "Reuse BRK88 for Apps Script HtmlService/google.script.run user-context sessions. This module is the complementary adapter for an external static web client that establishes identity with Google Identity Services and then exchanges it for an opaque Apps Script API session.",
+      "duplication_guard": "Do not create another same-context session brick; promote this external-client adapter only after project validation."
+    }
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_MODULE",

@@ -4,16 +4,26 @@
     "json_type": "framework_module",
     "scope": "framework",
     "schema_id": "SCH_MODULE",
-    "artifact_version": "1.0.0",
+    "artifact_version": "1.1.0",
     "introduced_in": "1.14.0",
     "status": "experimental",
     "date_creation": "2026-09-20",
     "date_mise_a_jour": "2026-09-20",
     "help_id": "HELP_ACCESS_CONTROL_RBAC",
     "category": "security",
-    "tags": ["security", "rbac", "permissions", "deny-by-default"],
-    "visibility": ["dev"],
-    "supported_runtime_modes": ["production", "local"]
+    "tags": [
+      "security",
+      "rbac",
+      "permissions",
+      "deny-by-default"
+    ],
+    "visibility": [
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "production",
+      "local"
+    ]
   },
   "Data": {
     "purpose": "Contrat RBAC réutilisable pour contrôler côté serveur les rôles et permissions d'une application web sans exposer les données privées au client.",
@@ -26,7 +36,11 @@
     },
     "role_contract": {
       "roles": "object<string,string[]>",
-      "permission_patterns": ["*", "resource:action", "resource:*"]
+      "permission_patterns": [
+        "*",
+        "resource:action",
+        "resource:*"
+      ]
     },
     "rules": [
       "The server is authoritative for authorization.",
@@ -34,8 +48,10 @@
       "Unknown users, inactive users, unknown roles and missing permissions fail closed.",
       "Role permissions are unioned with explicit per-user permissions.",
       "Business user lists and role assignments are project data, never framework data.",
-      "Passwords, OAuth secrets, API keys and session tokens are never stored in the RBAC JSON."
-    ]
+      "Passwords, OAuth secrets, API keys and session tokens are never stored in the RBAC JSON.",
+      "Runtime security settings are resolved from one project config.json; users/roles stay in a separate private users.json data file."
+    ],
+    "configuration_source": "project config.json -> security.access_control"
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_MODULE",

@@ -1,0 +1,45 @@
+{
+  "metadata": {
+    "id": "NLAB_AUTH_SESSION_GOOGLE",
+    "json_type": "framework_module",
+    "scope": "framework",
+    "schema_id": "SCH_MODULE",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.14.0",
+    "status": "experimental",
+    "date_creation": "2026-09-20",
+    "date_mise_a_jour": "2026-09-20",
+    "help_id": "HELP_AUTH_SESSION_GOOGLE",
+    "category": "security",
+    "tags": ["security", "google-identity", "session", "opaque-token", "apps-script"],
+    "visibility": ["dev"],
+    "supported_runtime_modes": ["production", "local"]
+  },
+  "Data": {
+    "purpose": "Échanger une identité Google vérifiée contre une session applicative opaque de courte durée, sans conserver le jeton Google dans le navigateur.",
+    "identity_provider": "google_identity_services",
+    "server_provider": "google_apps_script",
+    "session": {
+      "default_ttl_seconds": 1800,
+      "storage": "CacheService.getScriptCache",
+      "client_storage": "sessionStorage",
+      "sliding_expiration": true,
+      "fail_closed_on_cache_eviction": true
+    },
+    "verification": {
+      "id_token_endpoint": "https://oauth2.googleapis.com/tokeninfo",
+      "required_checks": ["audience", "email", "email_verified", "expiration"],
+      "verification_cache_seconds": 300
+    },
+    "rules": [
+      "The Google ID token is used only to establish identity and is not reused as the application session token.",
+      "The application session token is random, opaque and stored server-side by hash.",
+      "No password, OAuth secret or raw Google ID token is persisted in project data.",
+      "Session expiry or cache eviction fails closed and requires a new login."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_MODULE",
+    "note": "Module générique de session; les identités autorisées sont fournies par le module RBAC."
+  }
+}

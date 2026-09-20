@@ -1,28 +1,31 @@
 /**
  * nLab Web Framework — RBAC Access Control
- * Project users/roles are loaded from a private users.json file in Drive.
+ * Users/roles stay in the project's private users.json.
+ * The users file ID and cache TTL come from the central config.json.
  */
 var NLabAccessControl = (function () {
   'use strict';
-  var CACHE_KEY = 'nlab:security:users:v2';
+  var CACHE_KEY = 'nlab:security:users:v3';
 
   function readUsersFile_() {
-    var cfg = NLabSecurityCore.config();
-    var file = null;
-    if (cfg.usersFileId) {
-      file = DriveApp.getFileById(cfg.usersFileId);
-    } else {
-      if (!cfg.securityFolderId) throw NLabSecurityCore.error('security_config_missing', 'Missing NLAB_USERS_FILE_ID or NLAB_SECURITY_FOLDER_ID.', 500);
-      var it = DriveApp.getFolderById(cfg.securityFolderId).getFilesByName('users.json');
-      if (!it.hasNext()) throw NLabSecurityCore.error('users_file_missing', 'users.json not found.', 500);
-      file = it.next();
+    var sec = NLabSecurityCore.securityConfig(false);
+    var access = sec.access_control || {};
+    var fileId = String(access.users_file_id || '').trim();
+
+    if (fileId) return DriveApp.getFileById(fileId).getBlob().getDataAsString('UTF-8');
+
+    var folderId = String(access.security_folder_id || '').trim();
+    var fileName = String(access.users_file_name || 'users.json');
+    if (!folderId) {
+      throw NLabSecurityCore.error('users_file_config_missing', 'Configure security.access_control.users_file_id or security_folder_id.', 500);
     }
-    return file.getBlob().getDataAsString('UTF-8');
+    var it = DriveApp.getFolderById(folderId).getFilesByName(fileName);
+    if (!it.hasNext()) throw NLabSecurityCore.error('users_file_missing', fileName + ' not found.', 500);
+    return it.next().getBlob().getDataAsString('UTF-8');
   }
 
   function loadConfig(forceRefresh) {
     var cache = CacheService.getScriptCache();
-    var cfg = NLabSecurityCore.config();
     if (!forceRefresh) {
       var cached = cache.get(CACHE_KEY);
       if (cached) {
@@ -34,7 +37,8 @@ var NLabAccessControl = (function () {
     if (!data || !Array.isArray(data.users) || typeof data.roles !== 'object') {
       throw NLabSecurityCore.error('users_file_invalid', 'Invalid users.json contract.', 500);
     }
-    cache.put(CACHE_KEY, JSON.stringify(data), Math.min(cfg.userCacheSeconds, 21600));
+    var ttl = NLabSecurityCore.number('cache.user_permissions_seconds', 300, 1);
+    cache.put(CACHE_KEY, JSON.stringify(data), Math.min(Math.floor(ttl), 21600));
     return data;
   }
 

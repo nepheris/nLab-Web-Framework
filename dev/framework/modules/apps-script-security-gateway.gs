@@ -16,9 +16,12 @@ var NLabSecurityGateway = (function () {
   }
 
   function login_(body) {
-    var tokenFingerprint = NLabSecurityCore.sha256(body.id_token || '').slice(0, 24);
-    NLabRateLimit.check('login:' + tokenFingerprint, 'auth.login');
-    var identity = NLabAuthSession.verifyGoogleIdToken(body.id_token);
+    var provider = String(NLabSecurityCore.value('identity.provider', 'apps_script_active_user'));
+    var loginSubject = provider === 'apps_script_active_user'
+      ? ('active-user:' + Session.getTemporaryActiveUserKey())
+      : ('id-token:' + NLabSecurityCore.sha256(body.id_token || '').slice(0, 24));
+    NLabRateLimit.check(loginSubject, 'auth.login');
+    var identity = NLabAuthSession.resolveIdentity(body.id_token);
     var principal = NLabAccessControl.principalForEmail(identity.email);
     var created = NLabAuthSession.createSession(identity, principal);
     audit_('auth.login.ok', { email: principal.email, roles: principal.roles });

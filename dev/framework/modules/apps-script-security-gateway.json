@@ -1,0 +1,44 @@
+{
+  "metadata": {
+    "id": "NLAB_APPS_SCRIPT_SECURITY_GATEWAY",
+    "json_type": "framework_module",
+    "scope": "framework",
+    "schema_id": "SCH_MODULE",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.14.0",
+    "status": "experimental",
+    "date_creation": "2026-09-20",
+    "date_mise_a_jour": "2026-09-20",
+    "help_id": "HELP_APPS_SCRIPT_SECURITY_GATEWAY",
+    "category": "security",
+    "tags": ["security", "gateway", "apps-script", "rbac", "session", "rate-limit"],
+    "visibility": ["dev"],
+    "supported_runtime_modes": ["production", "local"],
+    "dependencies": ["NLAB_AUTH_SESSION_GOOGLE", "NLAB_ACCESS_CONTROL_RBAC", "NLAB_REQUEST_RATE_LIMIT"]
+  },
+  "Data": {
+    "purpose": "Point d'entrée serveur réutilisable qui applique identité, session, limitation de débit et permission avant tout handler métier.",
+    "request_contract": {
+      "action": "string",
+      "session_token": "string optional for auth.login",
+      "payload": "object optional",
+      "id_token": "string required only for auth.login"
+    },
+    "built_in_actions": ["auth.login", "auth.me", "auth.logout"],
+    "route_contract": {
+      "permission": "string|null",
+      "handler": "function(payload, context)"
+    },
+    "rules": [
+      "No business handler runs before session and permission checks complete.",
+      "The route table is server-side and never trusted from the browser.",
+      "Responses expose only project-approved fields.",
+      "Authentication, authorization and rate-limit failures are audited without logging secrets.",
+      "Project handlers remain separate from framework security mechanics."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_MODULE",
+    "note": "Gateway générique destiné aux applications statiques ou hybrides qui utilisent Apps Script comme backend privé."
+  }
+}

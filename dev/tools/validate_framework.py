@@ -25,7 +25,7 @@ MANIFEST_PATH = FW / "framework-manifest.json"
 HELP_ID_RE = re.compile(r'data-help-id\s*=\s*["\']([^"\']+)["\']')
 ICON_OBJECT_RE = re.compile(r'\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*svg\(')
 ICON_ASSIGN_RE = re.compile(r'\bicons\.([A-Za-z][A-Za-z0-9_]*)\s*=\s*svg\(')
-ICON_FACTORY_RE = re.compile(r'\\b([A-Za-z][A-Za-z0-9_]*)\\s*:\\s*file\\(')
+ICON_FACTORY_RE = re.compile(r'\b([A-Za-z][A-Za-z0-9_]*)\s*:\s*file\(')
 REQUIRED_V2 = {"id","json_type","scope","schema_id","artifact_version","introduced_in","status","date_creation","date_mise_a_jour","visibility","supported_runtime_modes"}
 
 

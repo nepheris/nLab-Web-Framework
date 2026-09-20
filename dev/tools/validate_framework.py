@@ -106,7 +106,7 @@ def main():
         if not p.exists():
             add(report,"errors","icon_runtime_file_missing",icon_path,rel); continue
         text=p.read_text(encoding="utf-8")
-        runtime_icons.update(ICON_OBJECT_RE.findall(text)); runtime_icons.update(ICON_ASSIGN_RE.findall(text))
+        runtime_icons.update(ICON_OBJECT_RE.findall(text)); runtime_icons.update(ICON_ASSIGN_RE.findall(text)); runtime_icons.update(ICON_FACTORY_RE.findall(text))
     for x in sorted(icons-runtime_icons): add(report,"errors","icon_runtime_missing",icon_path,x)
     for x in sorted(runtime_icons-icons): add(report,"warnings","icon_runtime_unregistered",icon_path,x)
 

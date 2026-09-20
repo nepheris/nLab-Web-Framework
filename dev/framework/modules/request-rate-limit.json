@@ -4,16 +4,27 @@
     "json_type": "framework_module",
     "scope": "framework",
     "schema_id": "SCH_MODULE",
-    "artifact_version": "1.0.0",
+    "artifact_version": "1.1.0",
     "introduced_in": "1.14.0",
     "status": "experimental",
     "date_creation": "2026-09-20",
     "date_mise_a_jour": "2026-09-20",
     "help_id": "HELP_REQUEST_RATE_LIMIT",
     "category": "security",
-    "tags": ["security", "rate-limit", "quota", "apps-script", "cache"],
-    "visibility": ["dev"],
-    "supported_runtime_modes": ["production", "local"]
+    "tags": [
+      "security",
+      "rate-limit",
+      "quota",
+      "apps-script",
+      "cache"
+    ],
+    "visibility": [
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "production",
+      "local"
+    ]
   },
   "Data": {
     "purpose": "Limiter les appels applicatifs avant les opérations coûteuses afin de protéger Apps Script, Drive et les quotas associés.",
@@ -28,8 +39,10 @@
       "Limits are configuration, not UI hints.",
       "The limiter runs before Drive reads and writes whenever possible.",
       "UI clients aggregate reads and never issue one remote call per keystroke.",
-      "429 responses include a retry_after_seconds value."
-    ]
+      "429 responses include a retry_after_seconds value.",
+      "Rate thresholds are project JSON configuration and are not hard-coded in project handlers."
+    ],
+    "configuration_source": "project config.json -> security.rate_limits"
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_MODULE",

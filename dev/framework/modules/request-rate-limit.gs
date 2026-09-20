@@ -1,5 +1,6 @@
 /**
  * nLab Web Framework — simple server-side minute/hour rate limiter.
+ * Limits are loaded from project config.json.
  */
 var NLabRateLimit = (function () {
   'use strict';
@@ -16,8 +17,18 @@ var NLabRateLimit = (function () {
     return n;
   }
 
+  function limitsFor_(route) {
+    var sec = NLabSecurityCore.securityConfig(false);
+    var rate = sec.rate_limits || {};
+    var selected = route === 'auth.login' ? (rate.login || {}) : (rate.per_user || {});
+    return {
+      minute: Number(selected.requests_per_minute || 30),
+      hour: Number(selected.requests_per_hour || 300)
+    };
+  }
+
   function check(subject, route) {
-    var cfg = NLabSecurityCore.config();
+    var limits = limitsFor_(route);
     var now = NLabSecurityCore.nowMs();
     var subjectHash = NLabSecurityCore.sha256(String(subject || 'anonymous')).slice(0, 24);
     var routeHash = NLabSecurityCore.sha256(String(route || '*')).slice(0, 12);
@@ -30,15 +41,16 @@ var NLabRateLimit = (function () {
       var cache = CacheService.getScriptCache();
       var minuteCount = increment_(cache, mKey, 120);
       var hourCount = increment_(cache, hKey, 3700);
-      if (minuteCount > cfg.rateMinute) {
+
+      if (minuteCount > limits.minute) {
         throw NLabSecurityCore.error('rate_limited', 'Too many requests.', 429, { retry_after_seconds: 60 });
       }
-      if (hourCount > cfg.rateHour) {
+      if (hourCount > limits.hour) {
         throw NLabSecurityCore.error('rate_limited', 'Too many requests.', 429, { retry_after_seconds: 3600 });
       }
       return {
-        minute_remaining: Math.max(0, cfg.rateMinute - minuteCount),
-        hour_remaining: Math.max(0, cfg.rateHour - hourCount)
+        minute_remaining: Math.max(0, limits.minute - minuteCount),
+        hour_remaining: Math.max(0, limits.hour - hourCount)
       };
     } finally {
       lock.releaseLock();

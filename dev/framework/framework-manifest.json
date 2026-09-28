@@ -4,11 +4,11 @@
     "json_type": "framework_manifest",
     "scope": "framework",
     "schema_id": "SCH_FRAMEWORK_MANIFEST",
-    "artifact_version": "1.10.0",
+    "artifact_version": "1.11.0",
     "introduced_in": "1.6.0",
     "status": "stable",
     "date_creation": "2026-08-09",
-    "date_mise_a_jour": "2026-09-20",
+    "date_mise_a_jour": "2026-09-28",
     "help_id": "HELP_FRAMEWORK_MANIFEST",
     "category": "governance",
     "tags": [
@@ -28,9 +28,9 @@
   },
   "Data": {
     "name": "framework nLab",
-    "framework_version": "1.14.0",
-    "release_name": "Security Gateway Core",
-    "release_date": "2026-09-20",
+    "framework_version": "1.15.0",
+    "release_name": "Site Platform Public/Private Split",
+    "release_date": "2026-09-28",
     "release_status": "development",
     "canonical": {
       "framework_manifest": "framework-manifest.json",
@@ -79,7 +79,11 @@
       "auth_session_google": "modules/auth-session-google.json",
       "request_rate_limit": "modules/request-rate-limit.json",
       "apps_script_security_gateway": "modules/apps-script-security-gateway.json",
-      "security_client_runtime": "modules/security-client-runtime.js"
+      "security_client_runtime": "modules/security-client-runtime.js",
+      "site_platform": "site-platform/architecture.json",
+      "merchant_site_profile": "site-platform/profiles/merchant-site.json",
+      "public_private_split": "site-platform/contracts/public-private-split.json",
+      "external_payment_link": "site-platform/contracts/external-payment-link.json"
     },
     "demos": {
       "structured_data": {
@@ -145,7 +149,10 @@
       "Private project users and role assignments never belong in the public framework repository.",
       "Application sessions use opaque short-lived tokens; Google identity tokens are not reused as application session tokens.",
       "Rate limiting is enforced server-side before expensive provider calls whenever possible.",
-      "Client-side hidden controls never substitute for server-side permission checks."
+      "Client-side hidden controls never substitute for server-side permission checks.",
+      "The generic site platform is maintained in nLab-Web-Framework; client repositories contain generated public artifacts and client-specific public data only.",
+      "Private manager surfaces are deployed separately from the public site and enforce Google identity plus server-side authorization.",
+      "Payment integrations use provider-hosted links or deep links; raw payment credentials are never collected or stored by nLab."
     ],
     "versioning": {
       "framework_version_source": "Data.framework_version",

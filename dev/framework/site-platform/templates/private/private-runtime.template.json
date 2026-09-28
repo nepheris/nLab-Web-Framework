@@ -1,0 +1,8 @@
+{
+  "project_id": "{{project.id}}",
+  "environment": "{{project.environment}}",
+  "identity_provider": "google",
+  "authorization": "server-side-rbac",
+  "config_source": "SITE_DEPLOY_CONFIG.json",
+  "data_store": "private-google-drive"
+}

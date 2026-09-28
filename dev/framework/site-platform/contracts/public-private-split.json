@@ -1,0 +1,28 @@
+{
+  "id": "NLAB_PUBLIC_PRIVATE_SPLIT",
+  "public_surface": {
+    "repository_visibility": "public",
+    "may_contain": [
+      "compiled framework assets",
+      "public catalogue",
+      "public content",
+      "public media",
+      "public config"
+    ],
+    "must_not_contain": [
+      "authorized user emails",
+      "private customer data",
+      "supplier costs",
+      "margins",
+      "OAuth tokens",
+      "payment credentials"
+    ]
+  },
+  "private_surface": {
+    "runtime": "google-apps-script-webapp",
+    "login": "google",
+    "authorization": "server-side",
+    "data_source": "private Google Drive",
+    "public_entrypoint": "Connexion link only"
+  }
+}

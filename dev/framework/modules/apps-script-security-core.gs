@@ -19,7 +19,13 @@ var NLabSecurityCore = (function () {
 
   function loadProjectConfig(forceRefresh) {
     var fileId = props_().getProperty('NLAB_CONFIG_FILE_ID') || '';
-    if (!fileId) throw error('config_file_id_missing', 'Missing Script Property NLAB_CONFIG_FILE_ID.', 500);
+    if (!fileId && typeof NLAB_BOOTSTRAP_CONFIG_FILE_ID !== 'undefined') {
+      fileId = String(NLAB_BOOTSTRAP_CONFIG_FILE_ID || '').trim();
+      if (fileId) {
+        try { props_().setProperty('NLAB_CONFIG_FILE_ID', fileId); } catch (_) {}
+      }
+    }
+    if (!fileId) throw error('config_file_id_missing', 'Missing NLAB_CONFIG_FILE_ID bootstrap pointer.', 500);
 
     var cache = CacheService.getScriptCache();
     if (!forceRefresh) {

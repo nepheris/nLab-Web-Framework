@@ -1,0 +1,13 @@
+{
+  "project_id": "{{project.id}}",
+  "project_name": "{{project.name}}",
+  "version": "{{version}}",
+  "language": "{{business.language_default}}",
+  "currency": "{{business.currency}}",
+  "offerings_mode": "{{business.offerings_mode}}",
+  "modules": "{{modules.public}}",
+  "private_manager": {
+    "enabled": true,
+    "url": "{{runtime.private_manager_url}}"
+  }
+}

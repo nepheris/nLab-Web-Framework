@@ -1,0 +1,49 @@
+{
+  "id": "NLAB_SITE_PLATFORM",
+  "version": "0.1.0",
+  "status": "pilot",
+  "reference_project": "Chez Koko / Chez Rita",
+  "source_of_truth": {
+    "generic_code": "nLab-Web-Framework",
+    "client_private_instance": "Google Drive SITE_DEPLOYMENT",
+    "public_release": "client public GitHub repository",
+    "private_runtime": "Google Apps Script web app"
+  },
+  "surfaces": {
+    "public": {
+      "hosting": "github-pages",
+      "authentication": "none",
+      "data_classification": "public-only",
+      "generated_from": [
+        "framework",
+        "client branding/content/catalogue"
+      ]
+    },
+    "private": {
+      "hosting": "google-apps-script",
+      "authentication": "google-account",
+      "authorization": "server-side-rbac",
+      "data_store": "private-google-drive",
+      "generated_from": [
+        "framework",
+        "client private config"
+      ]
+    }
+  },
+  "optional_sources": {
+    "client_private_repository": {
+      "enabled_by_default": false,
+      "use_when": "client-specific code or overrides need Git versioning"
+    }
+  },
+  "deployment": {
+    "app": "APP14-site-deployment-workbench",
+    "orchestrator": "BRK107-site-deployment-orchestrator",
+    "operations": [
+      "install",
+      "update",
+      "reconfigure",
+      "auto"
+    ]
+  }
+}

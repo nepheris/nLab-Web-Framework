@@ -1,0 +1,34 @@
+{
+  "id": "NLAB_EXTERNAL_PAYMENT_LINK",
+  "strategy": "redirect-or-deep-link",
+  "rule": "nLab never collects or processes raw payment credentials",
+  "prohibited_fields": [
+    "card_number",
+    "cvv",
+    "pin",
+    "bank_password",
+    "raw_bank_credentials"
+  ],
+  "allowed_internal_fields": [
+    "provider",
+    "external_reference",
+    "amount",
+    "currency",
+    "status",
+    "created_at",
+    "confirmed_at",
+    "payment_url"
+  ],
+  "provider_adapter_contract": {
+    "input": [
+      "amount",
+      "currency",
+      "order_reference",
+      "return_url"
+    ],
+    "output": [
+      "payment_url",
+      "external_reference"
+    ]
+  }
+}

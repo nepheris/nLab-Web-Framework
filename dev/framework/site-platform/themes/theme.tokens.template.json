@@ -1,0 +1,17 @@
+{
+  "brand": {
+    "name": "{{project.name}}",
+    "logo": "source/branding/logo.*"
+  },
+  "colors": {
+    "primary": "{{theme.colors.primary}}",
+    "secondary": "{{theme.colors.secondary}}",
+    "accent": "{{theme.colors.accent}}",
+    "background": "{{theme.colors.background}}",
+    "text": "{{theme.colors.text}}"
+  },
+  "typography": {
+    "family": "{{theme.typography.family}}"
+  },
+  "radius": "{{theme.radius}}"
+}

@@ -1,0 +1,33 @@
+{
+  "id": "merchant-site",
+  "version": "0.1.0",
+  "offering_modes": [
+    "products",
+    "services",
+    "mixed"
+  ],
+  "base_modules": [
+    "public-catalogue",
+    "crm",
+    "customer-requests",
+    "customer-orders",
+    "suppliers",
+    "payments",
+    "delivery-or-execution",
+    "tracking",
+    "management"
+  ],
+  "optional_modules": [
+    "booking",
+    "inventory",
+    "multilingual",
+    "maps",
+    "customer-account"
+  ],
+  "payment_policy": {
+    "mode": "external-link-only",
+    "collect_card_data": false,
+    "collect_bank_credentials": false,
+    "store_sensitive_payment_data": false
+  }
+}

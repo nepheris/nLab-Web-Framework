@@ -1,0 +1,19 @@
+{
+  "id": "NLAB_SITE_PLATFORM_BUILD",
+  "version": "0.1.0",
+  "public_output": "public-site",
+  "private_output": "private-manager",
+  "client_source_roots": [
+    "source/branding",
+    "source/content",
+    "source/catalogue",
+    "source/media",
+    "source/overrides"
+  ],
+  "rules": [
+    "Builds are deterministic for a pinned framework commit and client source snapshot.",
+    "Public output receives only sanitized public configuration.",
+    "Private output receives authorization bootstrap and private runtime configuration.",
+    "Client overrides are applied last and must not modify framework canonical sources."
+  ]
+}

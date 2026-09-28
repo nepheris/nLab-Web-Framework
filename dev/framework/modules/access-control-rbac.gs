@@ -1,7 +1,8 @@
 /**
  * nLab Web Framework — RBAC Access Control
- * Users/roles stay in the project's private users.json.
- * The users file ID and cache TTL come from the central config.json.
+ * Users/roles can come from a private generated Apps Script bootstrap variable
+ * (NLAB_BOOTSTRAP_ACCESS_CONFIG) or, as a fallback, from private users.json in Drive.
+ * The generated bootstrap is useful for manifest-driven deployments; it is never public.
  */
 var NLabAccessControl = (function () {
   'use strict';
@@ -24,7 +25,19 @@ var NLabAccessControl = (function () {
     return it.next().getBlob().getDataAsString('UTF-8');
   }
 
+  function bootstrapConfig_() {
+    if (typeof NLAB_BOOTSTRAP_ACCESS_CONFIG === 'undefined') return null;
+    var data = NLAB_BOOTSTRAP_ACCESS_CONFIG;
+    if (!data || !Array.isArray(data.users) || typeof data.roles !== 'object') {
+      throw NLabSecurityCore.error('bootstrap_access_invalid', 'Invalid NLAB_BOOTSTRAP_ACCESS_CONFIG contract.', 500);
+    }
+    return data;
+  }
+
   function loadConfig(forceRefresh) {
+    var boot = bootstrapConfig_();
+    if (boot) return boot;
+
     var cache = CacheService.getScriptCache();
     if (!forceRefresh) {
       var cached = cache.get(CACHE_KEY);

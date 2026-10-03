@@ -1,0 +1,76 @@
+{
+  "metadata": {
+    "id": "COMP_VISUAL_MEDIA_SLOT",
+    "json_type": "framework_component_config",
+    "scope": "framework",
+    "schema_id": "SCH_COMPONENT",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.12.0",
+    "status": "stable",
+    "date_creation": "2026-10-03",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_VISUAL_MEDIA_SLOT",
+    "category": "data_display",
+    "tags": [
+      "media",
+      "placeholder",
+      "svg",
+      "gallery",
+      "cards",
+      "theme"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "NLAB_DESIGN_TOKENS",
+      "NLAB_VIEW_VARIANTS"
+    ]
+  },
+  "Data": {
+    "component": "visual_media_slot",
+    "purpose": "Provide one reusable visual area for cards and gallery items, starting with a themed placeholder and later accepting a dedicated final visual without changing page structure.",
+    "modes": [
+      "PLACEHOLDER",
+      "SVG",
+      "IMAGE"
+    ],
+    "default_mode": "PLACEHOLDER",
+    "preferred_final_format": "SVG",
+    "placeholder": {
+      "theme_binding": "currentColor",
+      "generic_variant": "studio",
+      "project_variants_allowed": true,
+      "label_supported": true
+    },
+    "view_behavior": {
+      "cards": "show_medium",
+      "gallery": "show_large",
+      "list": "hide_or_compact",
+      "table": "hide_by_default"
+    },
+    "final_asset_policy": {
+      "generate_after_functional_stabilization": true,
+      "batch_generation_recommended": true,
+      "shared_art_direction_required": true,
+      "themeable_svg_preferred": true
+    },
+    "rules": [
+      "The media slot position and dimensions remain stable when replacing a placeholder with a final asset.",
+      "Placeholder and final asset selection are configuration data, not hard-coded business logic.",
+      "Projects should generate final visuals as a coherent batch after the associated studios/cockpits are functionally stable.",
+      "Themeable SVG should use currentColor or semantic CSS variables where practical.",
+      "A list/table view may suppress large media while preserving the same logical item."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_COMPONENT",
+    "note": "Reusable media slot for cards/gallery with placeholder-first workflow."
+  }
+}

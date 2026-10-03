@@ -4,21 +4,38 @@
     "json_type": "framework_help_definition",
     "scope": "framework",
     "schema_id": "SCH_ARTIFACT",
-    "artifact_version": "2.1.1",
+    "artifact_version": "2.2.0",
     "introduced_in": "1.1.0",
     "status": "stable",
     "date_creation": "2026-08-09",
-    "date_mise_a_jour": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
     "help_id": "HELP_CONTEXTUAL_HELP",
     "category": "help",
-    "tags": ["help", "context", "documentation", "public", "dev"],
-    "visibility": ["public", "dev"],
-    "supported_runtime_modes": ["static", "local", "production"],
-    "dependencies": ["COMP_FLOATING_WINDOW", "NLAB_HELP_REGISTRY", "NLAB_AUTO_DOCUMENTATION"]
+    "tags": [
+      "help",
+      "context",
+      "documentation",
+      "public",
+      "dev"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "COMP_FLOATING_WINDOW",
+      "NLAB_HELP_REGISTRY",
+      "NLAB_AUTO_DOCUMENTATION"
+    ]
   },
   "Data": {
     "model": "public_help_plus_dev_overlay",
-    "trigger": "metadata.help_id",
+    "trigger": "metadata.help_id + runtime stable UI ID",
     "canonical_sources": {
       "manifest": "../framework-manifest.json",
       "help_registry_key": "help_registry",
@@ -27,14 +44,29 @@
       "composition_engine_key": "composition_engine"
     },
     "compose": [
-      {"component": "floating_window", "preset": "help", "slot": "body"},
-      {"component": "foldable", "preset": "help_sections", "slot": "body"}
+      {
+        "component": "floating_window",
+        "preset": "help",
+        "slot": "body"
+      },
+      {
+        "component": "foldable",
+        "preset": "help_sections",
+        "slot": "body"
+      }
     ],
     "public": {
       "always_available": true,
-      "text_levels": ["short_text", "long_text"],
+      "text_levels": [
+        "short_text",
+        "long_text"
+      ],
       "tooltip_source": "public.short_text",
-      "panel_modes": ["short_only", "long_only", "short_then_long"],
+      "panel_modes": [
+        "short_only",
+        "long_only",
+        "short_then_long"
+      ],
       "default_panel_mode": "short_then_long",
       "long_text_default_state": "collapsed",
       "language_rule": "simple_user_facing_language",
@@ -43,14 +75,51 @@
     "dev": {
       "mode": "overlay_below_public",
       "public_block_remains_visible": true,
-      "technical_source_order": ["metadata", "schema", "registries", "composition", "runtime_diagnostics", "optional_dev_notes"],
-      "sections": ["identity", "source", "schema", "dependencies", "composition", "data_contract", "tokens", "providers", "runtime", "pipeline", "diagnostics"],
+      "technical_source_order": [
+        "metadata",
+        "schema",
+        "registries",
+        "composition",
+        "runtime_diagnostics",
+        "optional_dev_notes"
+      ],
+      "sections": [
+        "identity",
+        "source",
+        "schema",
+        "dependencies",
+        "composition",
+        "data_contract",
+        "tokens",
+        "providers",
+        "runtime",
+        "pipeline",
+        "diagnostics"
+      ],
       "section_default_state": "collapsed",
       "subsection_default_state": "collapsed",
-      "technical_facts_are_generated": true
+      "technical_facts_are_generated": true,
+      "stable_ui_identity": {
+        "required": true,
+        "fields": [
+          "ui_id",
+          "ui_type",
+          "component",
+          "help_id",
+          "description",
+          "source",
+          "config",
+          "version_or_state"
+        ],
+        "purpose": "Allow exact identification of the UI element when requesting a change or debugging a page."
+      }
     },
     "fallback": {
-      "public": ["help_registry_entry", "public_safe_artifact_summary", "generic_component_help"],
+      "public": [
+        "help_registry_entry",
+        "public_safe_artifact_summary",
+        "generic_component_help"
+      ],
       "dev": "generated_artifact_help"
     },
     "rules": [
@@ -62,8 +131,18 @@
       "Technical facts are referenced from metadata, schemas and registries instead of copied into help entries.",
       "Specific public help may override wording and display preferences but not technical facts.",
       "All Dev technical sections are collapsible to keep the panel readable.",
-      "Canonical file paths are resolved through framework-manifest.json rather than duplicated here."
-    ]
+      "Canonical file paths are resolved through framework-manifest.json rather than duplicated here.",
+      "The help panel resolves the concrete runtime element and exposes its stable UI ID in the collapsed Dev section.",
+      "Sharing is part of contextual help and remains collapsed by default."
+    ],
+    "share": {
+      "placement": "below public/dev help",
+      "default_state": "collapsed",
+      "qr_generation": "lazy_on_expand",
+      "canonical_url_required": true,
+      "stable_root_variant_allowed": true,
+      "secrets_forbidden": true
+    }
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_ARTIFACT",

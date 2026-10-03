@@ -4,7 +4,7 @@
     "json_type": "framework_help_registry",
     "scope": "framework",
     "schema_id": "SCH_HELP_REGISTRY",
-    "artifact_version": "1.4.0",
+    "artifact_version": "1.6.0",
     "introduced_in": "1.6.1",
     "status": "stable",
     "date_creation": "2026-08-09",
@@ -38,7 +38,10 @@
       "global_help_id": "HELP_CONTEXTUAL_HELP",
       "panel_title": "Aide contextuelle",
       "long_text_label": "En savoir plus",
-      "dev_overlay_label": "Informations techniques"
+      "dev_overlay_label": "Développeur",
+      "share_label": "Partager cette page · QR",
+      "share_initial_state": "collapsed",
+      "ui_id_label": "UI ID"
     },
     "entries": [
       {
@@ -131,6 +134,20 @@
           "short_text": "Affiche la version réellement active du site ou de l’outil.",
           "long_text": "Les numéros de version, la date de publication et l’identifiant de build proviennent des métadonnées de release actives. Ils ne sont pas recopiés manuellement dans la page, ce qui évite d’afficher une version obsolète."
         }
+      },
+      {
+        "help_id": "HELP_VISUAL_MEDIA_SLOT",
+        "public": {
+          "short_text": "Zone visuelle réutilisable pour les cartes et galeries.",
+          "long_text": "Le slot peut afficher un placeholder thématique pendant le développement puis être remplacé par une illustration finale cohérente, sans modifier la structure de la page."
+        }
+      },
+      {
+        "help_id": "HELP_PAGE_SHARE_QR",
+        "public": {
+          "short_text": "Affiche un QR code de l’URL canonique de la page.",
+          "long_text": "Le QR est généré uniquement lorsque la section de partage est ouverte dans l’aide contextuelle. Il encode l’URL de partage fournie par l’application et ne doit contenir aucun secret ou jeton d’authentification."
+        }
       }
     ],
     "resolution": {
@@ -156,7 +173,8 @@
       "long_text adds explanation but must not duplicate generated technical metadata.",
       "Dev technical sections are generated and collapsed by default.",
       "Shared help-panel labels belong to this registry defaults block rather than runtime code.",
-      "A help entry may override display preferences but must not redefine technical facts from schemas or registries."
+      "A help entry may override display preferences but must not redefine technical facts from schemas or registries.",
+      "Runtime help displays the stable UI ID and generated technical facts only inside the collapsed Dev section."
     ]
   },
   "dictionnaire_donnees": {

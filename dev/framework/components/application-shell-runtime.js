@@ -115,7 +115,7 @@
     const lock=q('[data-window-lock]',w),reset=q('[data-window-reset]',w),close=q('[data-window-close]',w);
     let drag=null;
     head?.addEventListener('pointerdown',e=>{
-      if(e.target.closest('button,a,input,select,textarea')||w.classList.contains('locked'))return;
+      if(e.target.closest('button,a,input,select,textarea')||w.classList.contains('locked')||matchMedia('(max-width:620px)').matches)return;
       bringFront(w);const r=w.getBoundingClientRect();drag={x:e.clientX-r.left,y:e.clientY-r.top};
       head.setPointerCapture?.(e.pointerId);
     });

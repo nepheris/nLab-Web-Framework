@@ -4,7 +4,7 @@
     "json_type": "framework_component_registry",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "2.9.0",
+    "artifact_version": "3.0.0",
     "introduced_in": "1.1.0",
     "status": "stable",
     "date_creation": "2026-08-09",
@@ -45,7 +45,8 @@
           "floating_window",
           "view_variants",
           "foldable",
-          "contextual_help"
+          "contextual_help",
+          "qr_generator"
         ],
         "features": [
           "home_recovery",
@@ -58,7 +59,13 @@
           "fold_state",
           "floating_windows",
           "local_preferences",
-          "themeable_svg"
+          "themeable_svg",
+          "contextual_help_qr_share",
+          "canonical_page_url",
+          "lazy_qr_generation",
+          "responsive_single_codebase",
+          "stable_ui_ids",
+          "collapsed_dev_overlay"
         ]
       },
       {
@@ -300,6 +307,23 @@
           "gallery",
           "chart",
           "html_pdf_override"
+        ]
+      },
+      {
+        "id": "visual_media_slot",
+        "category": "data_display",
+        "config_driven": true,
+        "default_config": "visual-media-slot.json",
+        "primitive": true,
+        "features": [
+          "placeholder",
+          "svg",
+          "image",
+          "cards",
+          "gallery",
+          "themeable_currentColor",
+          "stable_slot",
+          "batch_final_art"
         ]
       },
       {

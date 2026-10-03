@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.0.0",
+    "artifact_version": "1.1.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -132,6 +132,7 @@
       "hidden_header_requires_restore_control": true
     },
     "rules": [
+      "Temporary pages must use the final application shell rather than a visually separate placeholder layout.",
       "Application shell owns interaction grammar, never project business labels or data.",
       "Projects configure available options but must preserve a direct home/navigation recovery path.",
       "UI preferences are convenience state only and never an authorization boundary.",
@@ -139,7 +140,12 @@
       "Floating windows compose COMP_FLOATING_WINDOW; drag/resize/lock mechanics must not be redefined project by project.",
       "View identity is semantic and comes from NLAB_VIEW_VARIANTS.",
       "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source."
-    ]
+    ],
+    "homogeneity": {
+      "rule": "All pages inside one application, including temporary/placeholder pages, use the same application shell, semantic tokens, header grammar, preference model, floating-window mechanics and responsive behavior.",
+      "variable_surface": "Only central business/content modules vary by page.",
+      "shared_preferences_recommended": true
+    }
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_COMPONENT",

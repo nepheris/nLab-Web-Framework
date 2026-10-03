@@ -4,7 +4,7 @@
     "json_type": "framework_help_registry",
     "scope": "framework",
     "schema_id": "SCH_HELP_REGISTRY",
-    "artifact_version": "1.3.0",
+    "artifact_version": "1.4.0",
     "introduced_in": "1.6.1",
     "status": "stable",
     "date_creation": "2026-08-09",
@@ -123,6 +123,13 @@
         "public": {
           "short_text": "Change la manière de présenter les mêmes données.",
           "long_text": "Vous pouvez choisir une vue en cartes, liste, tableau, galerie ou graphique lorsque le composant l’autorise. Le contenu logique reste identique ; seule la présentation change."
+        }
+      },
+      {
+        "help_id": "HELP_VISUAL_MEDIA_SLOT",
+        "public": {
+          "short_text": "Zone visuelle réutilisable pour les cartes et galeries.",
+          "long_text": "Le slot peut afficher un placeholder thématique pendant le développement puis être remplacé par une illustration finale cohérente, sans modifier la structure de la page."
         }
       }
     ],

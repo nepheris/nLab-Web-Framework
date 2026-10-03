@@ -1,0 +1,148 @@
+{
+  "metadata": {
+    "id": "COMP_APPLICATION_SHELL",
+    "json_type": "framework_component_config",
+    "scope": "framework",
+    "schema_id": "SCH_COMPONENT",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.12.0",
+    "status": "stable",
+    "date_creation": "2026-10-03",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_APPLICATION_SHELL",
+    "category": "layout",
+    "tags": [
+      "application-shell",
+      "header",
+      "preferences",
+      "views",
+      "windows",
+      "theme"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "COMP_FLOATING_WINDOW",
+      "NLAB_VIEW_VARIANTS",
+      "NLAB_CLIENT_PERSISTENCE",
+      "NLAB_DESIGN_TOKENS",
+      "NLAB_ICON_REGISTRY"
+    ]
+  },
+  "Data": {
+    "component": "application_shell",
+    "purpose": "Shell commun nLab pour navigation persistante, préférences d’interface, vues multiples, sections pliables et fenêtres flottantes.",
+    "header": {
+      "home_action_required": true,
+      "modes": [
+        "sticky",
+        "fixed",
+        "static"
+      ],
+      "preferences": [
+        "visible",
+        "shadow",
+        "compact",
+        "auto_hide",
+        "mode"
+      ],
+      "default": {
+        "visible": true,
+        "shadow": true,
+        "compact": false,
+        "auto_hide": false,
+        "mode": "sticky"
+      },
+      "restore_control_required_when_hidden": true
+    },
+    "views": {
+      "variants": [
+        "cards",
+        "list",
+        "gallery",
+        "table"
+      ],
+      "default": "cards",
+      "persistence": true,
+      "project_may_disable_variants": true
+    },
+    "foldables": {
+      "supported": true,
+      "expand_all": true,
+      "collapse_all": true,
+      "persistence_per_section": true
+    },
+    "floating_windows": {
+      "primitive": "floating_window",
+      "capabilities": [
+        "move",
+        "lock",
+        "resize",
+        "reset",
+        "close",
+        "persistence",
+        "viewport_clamp"
+      ],
+      "recommended_windows": [
+        "navigation",
+        "help",
+        "settings"
+      ]
+    },
+    "theme": {
+      "semantic_tokens": true,
+      "dominant_color_override": true,
+      "svg_rule": "Use currentColor so inline/themeable SVG follows semantic CSS tokens without duplicating image files.",
+      "modes": [
+        "auto",
+        "light",
+        "dark"
+      ]
+    },
+    "persistence": {
+      "adapter": "local_storage",
+      "opt_in_surface": "project_or_user_feature",
+      "allowed": [
+        "theme",
+        "dominant_color",
+        "view",
+        "header_preferences",
+        "fold_state",
+        "window_geometry",
+        "window_lock_state"
+      ],
+      "forbidden": [
+        "credentials",
+        "tokens",
+        "secrets",
+        "canonical_business_data"
+      ]
+    },
+    "accessibility": {
+      "icon_buttons_require_label": true,
+      "keyboard_escape_closes_floating_windows": true,
+      "focus_visible_required": true,
+      "hidden_header_requires_restore_control": true
+    },
+    "rules": [
+      "Application shell owns interaction grammar, never project business labels or data.",
+      "Projects configure available options but must preserve a direct home/navigation recovery path.",
+      "UI preferences are convenience state only and never an authorization boundary.",
+      "Themeable SVG uses currentColor or semantic CSS variables rather than maintaining color-specific asset copies.",
+      "Floating windows compose COMP_FLOATING_WINDOW; drag/resize/lock mechanics must not be redefined project by project.",
+      "View identity is semantic and comes from NLAB_VIEW_VARIANTS.",
+      "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_COMPONENT",
+    "note": "Shell d’application commun pour cockpit, studio et dashboards nLab."
+  }
+}

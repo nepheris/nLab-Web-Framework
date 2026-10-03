@@ -1,16 +1,159 @@
 {
-  "metadata":{"id":"NLAB_HELP_REGISTRY","json_type":"framework_help_registry","scope":"framework","schema_id":"SCH_HELP_REGISTRY","artifact_version":"1.2.0","introduced_in":"1.6.1","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","help_id":"HELP_HELP_REGISTRY","category":"help","tags":["help","public","dev","ux"],"visibility":["public","dev"],"supported_runtime_modes":["static","local","production"]},
-  "Data":{"purpose":"Source canonique des textes éditoriaux d’aide publique. La documentation technique Dev est générée depuis les autres sources canoniques.","defaults":{"public_panel_mode":"short_then_long","long_text_initial_state":"collapsed","dev_overlay":"below_public","dev_section_initial_state":"collapsed","tooltip_source":"public.short_text","global_help_id":"HELP_CONTEXTUAL_HELP","panel_title":"Aide contextuelle","long_text_label":"En savoir plus","dev_overlay_label":"Informations techniques"},"entries":[
-    {"help_id":"HELP_CONTEXTUAL_HELP","public":{"short_text":"Affiche une aide simple liée à l’élément que vous utilisez.","long_text":"L’aide contextuelle donne d’abord une explication courte et facile à lire. Vous pouvez ensuite ouvrir la partie détaillée pour obtenir davantage d’informations sans quitter la page."}},
-    {"help_id":"HELP_TOOLBAR_FULL","public":{"short_text":"Regroupe les actions utiles de la page dans une barre d’outils.","long_text":"La barre d’outils rassemble les commandes disponibles pour la page. Les boutons affichés peuvent varier selon le site, la page et les fonctions activées."}},
-    {"help_id":"HELP_FLOATING_WINDOW","public":{"short_text":"Affiche un panneau que vous pouvez garder à portée de main pendant votre navigation.","long_text":"Cette fenêtre permet d’afficher une aide, un outil ou des informations sans quitter la page en cours. Selon la configuration, elle peut être déplacée, redimensionnée, ancrée ou refermée."}},
-    {"help_id":"HELP_FOLDABLE","public":{"short_text":"Permet d’ouvrir ou de replier une partie de la page.","long_text":"Les rubriques repliables gardent les pages lisibles en masquant les détails dont vous n’avez pas besoin immédiatement. Vous pouvez ouvrir chaque rubrique quand vous souhaitez consulter son contenu."}},
-    {"help_id":"HELP_NOTIFICATION_CENTER","public":{"short_text":"Affiche les informations, confirmations et alertes importantes.","long_text":"Les notifications vous informent du résultat d’une action, d’un changement ou d’un problème. Certaines disparaissent automatiquement, tandis que les messages importants restent visibles jusqu’à leur fermeture."}},
-    {"help_id":"HELP_CONFIRMATION_DIALOG","public":{"short_text":"Demande une confirmation avant une action qui nécessite votre accord.","long_text":"Cette fenêtre vous permet de vérifier une action avant de la valider. Pour les opérations importantes ou irréversibles, une confirmation explicite peut être demandée."}},
-    {"help_id":"HELP_LOG_CONSOLE","public":{"short_text":"Affiche les derniers messages de fonctionnement disponibles.","long_text":"Le journal présente les messages récents produits par l’application. Selon la configuration, vous pouvez l’agrandir, le filtrer ou ouvrir une vue plus complète pour consulter davantage d’historique."}},
-    {"help_id":"HELP_FILE_ATTACHMENT_INPUT","public":{"short_text":"Ajoute un ou plusieurs fichiers au formulaire.","long_text":"Vous pouvez choisir des fichiers ou les déposer dans la zone prévue. Ils restent sur votre appareil tant que vous ne lancez pas explicitement un envoi ou un enregistrement compatible."}},
-    {"help_id":"HELP_AUDIO_RECORDER","public":{"short_text":"Enregistre un message audio avec votre microphone.","long_text":"L’enregistrement commence uniquement après votre action et l’autorisation du navigateur. Vous pouvez écouter le résultat avant de l’envoyer ou de le supprimer."}},
-    {"help_id":"HELP_DRAFT_CONTROLS","public":{"short_text":"Enregistre ou reprend un brouillon de votre saisie.","long_text":"Le brouillon peut rester temporaire, être conservé localement si cette option est activée, ou être exporté dans un fichier. Aucun stockage persistant n’est utilisé par défaut."}}
-  ],"resolution":{"public":["explicit_help_entry","public_safe_artifact_summary","generic_component_help"],"dev":["public_help","metadata","schema","registries","composition","runtime_diagnostics","optional_dev_notes"]},"rules":["Public help always precedes the Dev overlay.","Public text uses simple language and never exposes architecture details by default.","short_text is the canonical tooltip/hover text unless a component explicitly defines a shorter accessibility label.","long_text adds explanation but must not duplicate generated technical metadata.","Dev technical sections are generated and collapsed by default.","Shared help-panel labels belong to this registry defaults block rather than runtime code.","A help entry may override display preferences but must not redefine technical facts from schemas or registries."]},
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_HELP_REGISTRY","note":"Les textes publics et libellés communs de l’aide sont maintenus ici une seule fois; les détails Dev sont dérivés automatiquement."}
+  "metadata": {
+    "id": "NLAB_HELP_REGISTRY",
+    "json_type": "framework_help_registry",
+    "scope": "framework",
+    "schema_id": "SCH_HELP_REGISTRY",
+    "artifact_version": "1.3.0",
+    "introduced_in": "1.6.1",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_HELP_REGISTRY",
+    "category": "help",
+    "tags": [
+      "help",
+      "public",
+      "dev",
+      "ux"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
+  },
+  "Data": {
+    "purpose": "Source canonique des textes éditoriaux d’aide publique. La documentation technique Dev est générée depuis les autres sources canoniques.",
+    "defaults": {
+      "public_panel_mode": "short_then_long",
+      "long_text_initial_state": "collapsed",
+      "dev_overlay": "below_public",
+      "dev_section_initial_state": "collapsed",
+      "tooltip_source": "public.short_text",
+      "global_help_id": "HELP_CONTEXTUAL_HELP",
+      "panel_title": "Aide contextuelle",
+      "long_text_label": "En savoir plus",
+      "dev_overlay_label": "Informations techniques"
+    },
+    "entries": [
+      {
+        "help_id": "HELP_APPLICATION_SHELL",
+        "public": {
+          "short_text": "Gère la navigation, l’affichage et les préférences communes de l’application.",
+          "long_text": "Le shell d’application fournit un accès permanent à l’accueil, plusieurs modes de vue, des sections repliables et des fenêtres d’aide ou de réglages. Les préférences d’interface restent locales au navigateur et peuvent être réinitialisées."
+        }
+      },
+      {
+        "help_id": "HELP_CONTEXTUAL_HELP",
+        "public": {
+          "short_text": "Affiche une aide simple liée à l’élément que vous utilisez.",
+          "long_text": "L’aide contextuelle donne d’abord une explication courte et facile à lire. Vous pouvez ensuite ouvrir la partie détaillée pour obtenir davantage d’informations sans quitter la page."
+        }
+      },
+      {
+        "help_id": "HELP_TOOLBAR_FULL",
+        "public": {
+          "short_text": "Regroupe les actions utiles de la page dans une barre d’outils.",
+          "long_text": "La barre d’outils rassemble les commandes disponibles pour la page. Les boutons affichés peuvent varier selon le site, la page et les fonctions activées."
+        }
+      },
+      {
+        "help_id": "HELP_FLOATING_WINDOW",
+        "public": {
+          "short_text": "Affiche un panneau que vous pouvez garder à portée de main pendant votre navigation.",
+          "long_text": "Cette fenêtre permet d’afficher une aide, un outil ou des informations sans quitter la page en cours. Selon la configuration, elle peut être déplacée, redimensionnée, ancrée ou refermée."
+        }
+      },
+      {
+        "help_id": "HELP_FOLDABLE",
+        "public": {
+          "short_text": "Permet d’ouvrir ou de replier une partie de la page.",
+          "long_text": "Les rubriques repliables gardent les pages lisibles en masquant les détails dont vous n’avez pas besoin immédiatement. Vous pouvez ouvrir chaque rubrique quand vous souhaitez consulter son contenu."
+        }
+      },
+      {
+        "help_id": "HELP_NOTIFICATION_CENTER",
+        "public": {
+          "short_text": "Affiche les informations, confirmations et alertes importantes.",
+          "long_text": "Les notifications vous informent du résultat d’une action, d’un changement ou d’un problème. Certaines disparaissent automatiquement, tandis que les messages importants restent visibles jusqu’à leur fermeture."
+        }
+      },
+      {
+        "help_id": "HELP_CONFIRMATION_DIALOG",
+        "public": {
+          "short_text": "Demande une confirmation avant une action qui nécessite votre accord.",
+          "long_text": "Cette fenêtre vous permet de vérifier une action avant de la valider. Pour les opérations importantes ou irréversibles, une confirmation explicite peut être demandée."
+        }
+      },
+      {
+        "help_id": "HELP_LOG_CONSOLE",
+        "public": {
+          "short_text": "Affiche les derniers messages de fonctionnement disponibles.",
+          "long_text": "Le journal présente les messages récents produits par l’application. Selon la configuration, vous pouvez l’agrandir, le filtrer ou ouvrir une vue plus complète pour consulter davantage d’historique."
+        }
+      },
+      {
+        "help_id": "HELP_FILE_ATTACHMENT_INPUT",
+        "public": {
+          "short_text": "Ajoute un ou plusieurs fichiers au formulaire.",
+          "long_text": "Vous pouvez choisir des fichiers ou les déposer dans la zone prévue. Ils restent sur votre appareil tant que vous ne lancez pas explicitement un envoi ou un enregistrement compatible."
+        }
+      },
+      {
+        "help_id": "HELP_AUDIO_RECORDER",
+        "public": {
+          "short_text": "Enregistre un message audio avec votre microphone.",
+          "long_text": "L’enregistrement commence uniquement après votre action et l’autorisation du navigateur. Vous pouvez écouter le résultat avant de l’envoyer ou de le supprimer."
+        }
+      },
+      {
+        "help_id": "HELP_DRAFT_CONTROLS",
+        "public": {
+          "short_text": "Enregistre ou reprend un brouillon de votre saisie.",
+          "long_text": "Le brouillon peut rester temporaire, être conservé localement si cette option est activée, ou être exporté dans un fichier. Aucun stockage persistant n’est utilisé par défaut."
+        }
+      },
+      {
+        "help_id": "HELP_VIEW_VARIANTS",
+        "public": {
+          "short_text": "Change la manière de présenter les mêmes données.",
+          "long_text": "Vous pouvez choisir une vue en cartes, liste, tableau, galerie ou graphique lorsque le composant l’autorise. Le contenu logique reste identique ; seule la présentation change."
+        }
+      }
+    ],
+    "resolution": {
+      "public": [
+        "explicit_help_entry",
+        "public_safe_artifact_summary",
+        "generic_component_help"
+      ],
+      "dev": [
+        "public_help",
+        "metadata",
+        "schema",
+        "registries",
+        "composition",
+        "runtime_diagnostics",
+        "optional_dev_notes"
+      ]
+    },
+    "rules": [
+      "Public help always precedes the Dev overlay.",
+      "Public text uses simple language and never exposes architecture details by default.",
+      "short_text is the canonical tooltip/hover text unless a component explicitly defines a shorter accessibility label.",
+      "long_text adds explanation but must not duplicate generated technical metadata.",
+      "Dev technical sections are generated and collapsed by default.",
+      "Shared help-panel labels belong to this registry defaults block rather than runtime code.",
+      "A help entry may override display preferences but must not redefine technical facts from schemas or registries."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_HELP_REGISTRY",
+    "note": "Les textes publics et libellés communs de l’aide sont maintenus ici une seule fois; les détails Dev sont dérivés automatiquement."
+  }
 }

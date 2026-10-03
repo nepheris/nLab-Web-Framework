@@ -1,0 +1,101 @@
+{
+  "metadata": {
+    "id": "NLAB_ICON_THEME_REGISTRY",
+    "json_type": "framework_ui_registry",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.12.0",
+    "status": "stable",
+    "date_creation": "2026-10-03",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_ICON_THEME_REGISTRY",
+    "category": "ui",
+    "tags": [
+      "icons",
+      "svg",
+      "theme",
+      "currentColor",
+      "override"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "NLAB_ICON_REGISTRY",
+      "NLAB_DESIGN_TOKENS"
+    ]
+  },
+  "Data": {
+    "purpose": "Résoudre un identifiant d’icône nLab vers un SVG cohérent, avec un thème par défaut et des overrides optionnels par application.",
+    "default_theme": "nlab-line",
+    "themes": [
+      {
+        "id": "nlab-line",
+        "label": "nLab Line",
+        "status": "stable",
+        "provider": "NLAB_ICON_REGISTRY",
+        "color_mode": "currentColor",
+        "view_box": "0 0 24 24",
+        "stroke_width": 1.7,
+        "linecap": "round",
+        "linejoin": "round",
+        "override_mode": "none"
+      }
+    ],
+    "resolution_order": [
+      "application_icon_theme_override",
+      "registered_icon_theme",
+      "nlab_line_default",
+      "registered_alias",
+      "fallback_icon"
+    ],
+    "fallback_icon": "command",
+    "state_model": {
+      "css_owned": true,
+      "supported_states": [
+        "default",
+        "hover",
+        "active",
+        "selected",
+        "disabled",
+        "warning",
+        "success",
+        "danger"
+      ],
+      "rule": "State color and opacity are CSS concerns. Icon geometry should remain stable unless a paired semantic icon exists."
+    },
+    "override_contract": {
+      "application_may_override": true,
+      "partial_override": true,
+      "must_preserve_icon_id": true,
+      "must_preserve_accessible_meaning": true,
+      "recommended_color_mode": "currentColor",
+      "fallback_to_default": true
+    },
+    "consumers": [
+      "nLab Studios including Markdown Studio",
+      "P005 Master Cockpit",
+      "CuisineX",
+      "future nLab web applications"
+    ],
+    "rules": [
+      "Application code references semantic icon IDs, never project-local SVG geometry, when a registered icon exists.",
+      "The default icon family is monochrome and inherits color through currentColor.",
+      "A project-specific icon theme overrides IDs, not button/action semantics.",
+      "Unknown or missing overrides fall back to the canonical default icon.",
+      "Do not fork the default icon registry into application-local copies.",
+      "New generic icons are added to the canonical registry before use in applications."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "Contrat de thèmes d’icônes nLab : default partagé + overrides applicatifs optionnels."
+  }
+}

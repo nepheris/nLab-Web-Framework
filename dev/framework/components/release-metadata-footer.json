@@ -1,0 +1,91 @@
+{
+  "metadata": {
+    "id": "COMP_RELEASE_METADATA_FOOTER",
+    "json_type": "framework_component_config",
+    "scope": "framework",
+    "schema_id": "SCH_COMPONENT",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.12.1",
+    "status": "stable",
+    "date_creation": "2026-10-03",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_RELEASE_METADATA_FOOTER",
+    "category": "layout",
+    "tags": [
+      "footer",
+      "version",
+      "release",
+      "build",
+      "registry"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
+  },
+  "Data": {
+    "component": "release_metadata_footer",
+    "purpose": "Afficher discrètement les métadonnées de version réellement actives sans dupliquer les numéros dans le HTML.",
+    "canonical_sources": [
+      "runtime_registry",
+      "release_manifest",
+      "bootstrap_metadata"
+    ],
+    "fields": {
+      "site_version": {
+        "required": true,
+        "source": "canonical_release_metadata"
+      },
+      "surface_version": {
+        "required": true,
+        "source": "resolved_current_surface_or_tool"
+      },
+      "channel": {
+        "required": false,
+        "source": "resolved_current_surface_or_tool"
+      },
+      "released_at": {
+        "required": true,
+        "source": "canonical_release_metadata"
+      },
+      "build_ref": {
+        "required": false,
+        "source": "runtime_build_or_registry_sha"
+      }
+    },
+    "display": {
+      "default_compact": true,
+      "location": "footer",
+      "version_prefix": "V",
+      "show_build_short_ref": true,
+      "build_ref_length": 8,
+      "expandable_inventory": true
+    },
+    "inventory": {
+      "supported": true,
+      "sources": [
+        "cockpits",
+        "tools",
+        "modules"
+      ],
+      "rule": "Inventory entries resolve CURRENT/TEST or equivalent pointers from the same canonical registry."
+    },
+    "rules": [
+      "Never hard-code displayed version numbers in page markup.",
+      "Never hard-code release dates in page markup.",
+      "The footer must resolve versions from a canonical runtime registry, manifest or bootstrap payload.",
+      "A surface/tool version must be the exact version object that was resolved for the current page.",
+      "A build reference may use a short immutable SHA or equivalent runtime identifier.",
+      "Missing metadata degrades to an explicit unknown marker rather than an invented value."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_COMPONENT",
+    "note": "Composant canonique d’affichage des versions de site, surface et build."
+  }
+}

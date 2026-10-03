@@ -32,6 +32,7 @@
     eye:svg(`${p('M3 12s3.5-6 9-6 9 6 9 6-3.5 6-9 6-9-6-9-6Z')}<circle cx="12" cy="12" r="2.5" fill="currentColor"/>`),
     eye_off:svg(p('M4 4l16 16M3 12s3.5-6 9-6c2 0 3.7.8 5.1 1.8M21 12s-3.5 6-9 6c-2 0-3.7-.8-5.1-1.8')),
     calendar:svg(`<rect x="4" y="6" width="16" height="14" rx="2" fill="none" stroke="currentColor" stroke-width="2"/><path d="M8 3v6M16 3v6M4 10h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`),
+    color_picker:svg(`<path d="m16.5 3.5 4 4-3 3-4-4 3-3Z" fill="none" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/><path d="m14.5 6.5-9 9L4 21l5.5-1.5 9-9" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M4 21h6" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>`),
     zoom_in:svg(`${p('M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Zm5-2 4 4M11 8v6M8 11h6')}`),
     zoom_out:svg(`${p('M11 18a7 7 0 1 1 0-14 7 7 0 0 1 0 14Zm5-2 4 4M8 11h6')}`),
     play:svg(f('M8 5v14l11-7L8 5Z')),

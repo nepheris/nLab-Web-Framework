@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.1.0",
+    "artifact_version": "1.2.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -33,7 +33,8 @@
       "NLAB_VIEW_VARIANTS",
       "NLAB_CLIENT_PERSISTENCE",
       "NLAB_DESIGN_TOKENS",
-      "NLAB_ICON_REGISTRY"
+      "NLAB_ICON_REGISTRY",
+      "NLAB_QR_GENERATOR"
     ]
   },
   "Data": {
@@ -139,12 +140,26 @@
       "Themeable SVG uses currentColor or semantic CSS variables rather than maintaining color-specific asset copies.",
       "Floating windows compose COMP_FLOATING_WINDOW; drag/resize/lock mechanics must not be redefined project by project.",
       "View identity is semantic and comes from NLAB_VIEW_VARIANTS.",
-      "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source."
+      "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source.",
+      "Page sharing QR belongs inside contextual help by default to avoid persistent visual clutter."
     ],
     "homogeneity": {
       "rule": "All pages inside one application, including temporary/placeholder pages, use the same application shell, semantic tokens, header grammar, preference model, floating-window mechanics and responsive behavior.",
       "variable_surface": "Only central business/content modules vary by page.",
       "shared_preferences_recommended": true
+    },
+    "contextual_help_share": {
+      "qr_enabled": true,
+      "placement": "inside_contextual_help",
+      "default_state": "collapsed",
+      "generation": "lazy_on_expand",
+      "source": "canonical_page_url",
+      "composes": "NLAB_QR_GENERATOR",
+      "security": [
+        "Never encode credentials, session tokens, GitHub tokens or other secrets.",
+        "Prefer a canonical share URL supplied by the application runtime over iframe/internal browser URLs.",
+        "Authentication remains enforced by the destination application."
+      ]
     }
   },
   "dictionnaire_donnees": {

@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.3.0",
+    "artifact_version": "1.4.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -124,7 +124,30 @@
         "tokens",
         "secrets",
         "canonical_business_data"
-      ]
+      ],
+      "preference_scopes": {
+        "shared_site": {
+          "inheritance": "site_to_child_surfaces",
+          "fields": [
+            "theme",
+            "dominant_color",
+            "view",
+            "header_preferences"
+          ],
+          "storage_key_policy": "shared_across_surfaces"
+        },
+        "local_surface": {
+          "inheritance": "none",
+          "fields": [
+            "fold_state",
+            "window_geometry",
+            "window_lock_state",
+            "temporary_selection"
+          ],
+          "storage_key_policy": "surface_specific"
+        }
+      },
+      "migration": "Legacy single-store preferences should migrate into shared and local stores without losing compatible user settings."
     },
     "accessibility": {
       "icon_buttons_require_label": true,
@@ -144,7 +167,9 @@
       "Temporary pages must use the final application shell rather than a visually separate placeholder layout.",
       "Page sharing QR belongs inside contextual help by default to avoid persistent visual clutter.",
       "Stable UI IDs are part of the interaction contract and support precise contextual help and development requests.",
-      "Footer sharing may expose a stable semantic URL while contextual help may expose the exact versioned context."
+      "Footer sharing may expose a stable semantic URL while contextual help may expose the exact versioned context.",
+      "Site-level visual preferences inherit to child pages/tools that implement the application shell; surface-only state does not cascade.",
+      "A compatible child surface may read the shared view preference even when it does not currently render that view variant, so future modules inherit consistently."
     ],
     "footer": {
       "release_metadata": true,

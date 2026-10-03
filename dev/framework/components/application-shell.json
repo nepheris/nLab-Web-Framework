@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.4.0",
+    "artifact_version": "1.5.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -68,11 +68,27 @@
         "cards",
         "list",
         "gallery",
-        "table"
+        "table",
+        "kanban",
+        "gantt",
+        "gantt_hierarchical",
+        "calendar",
+        "timeline",
+        "dependency"
       ],
       "default": "cards",
       "persistence": true,
-      "project_may_disable_variants": true
+      "project_may_disable_variants": true,
+      "applicability_source": "NLAB_VIEW_VARIANTS.Data.applicability",
+      "fallback_policy": "first_applicable_without_overwriting_shared_preference",
+      "time_zoom": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ]
     },
     "foldables": {
       "supported": true,
@@ -169,7 +185,8 @@
       "Stable UI IDs are part of the interaction contract and support precise contextual help and development requests.",
       "Footer sharing may expose a stable semantic URL while contextual help may expose the exact versioned context.",
       "Site-level visual preferences inherit to child pages/tools that implement the application shell; surface-only state does not cascade.",
-      "A compatible child surface may read the shared view preference even when it does not currently render that view variant, so future modules inherit consistently."
+      "A compatible child surface may read the shared view preference even when it does not currently render that view variant, so future modules inherit consistently.",
+      "Dataset-specific views must be filtered through NLAB_VIEW_VARIANTS applicability rules before rendering controls."
     ],
     "footer": {
       "release_metadata": true,

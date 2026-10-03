@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.2.0",
+    "artifact_version": "1.3.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -141,7 +141,9 @@
       "Floating windows compose COMP_FLOATING_WINDOW; drag/resize/lock mechanics must not be redefined project by project.",
       "View identity is semantic and comes from NLAB_VIEW_VARIANTS.",
       "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source.",
-      "Page sharing QR belongs inside contextual help by default to avoid persistent visual clutter."
+      "Page sharing QR belongs inside contextual help by default to avoid persistent visual clutter.",
+      "Stable UI IDs are part of the interaction contract and support precise contextual help and development requests.",
+      "Footer sharing may expose a stable semantic URL while contextual help may expose the exact versioned context."
     ],
     "homogeneity": {
       "rule": "All pages inside one application, including temporary/placeholder pages, use the same application shell, semantic tokens, header grammar, preference model, floating-window mechanics and responsive behavior.",
@@ -160,6 +162,59 @@
         "Prefer a canonical share URL supplied by the application runtime over iframe/internal browser URLs.",
         "Authentication remains enforced by the destination application."
       ]
+    },
+    "responsive": {
+      "single_codebase": true,
+      "breakpoints": {
+        "desktop": {
+          "behavior": "free floating windows; full shell controls; multi-column views"
+        },
+        "tablet": {
+          "behavior": "clamped windows; wrapped shell controls; same functional surface"
+        },
+        "mobile": {
+          "behavior": "bottom-sheet floating windows; touch targets >= 42px; single-column content; horizontal control overflow allowed"
+        }
+      },
+      "rules": [
+        "Responsive behavior changes layout, not business capability.",
+        "Mobile/tablet must use the same semantic UI IDs and help bindings as desktop.",
+        "Floating drag/resize may be disabled on narrow touch viewports when the panel becomes a bottom sheet."
+      ]
+    },
+    "contextual_help": {
+      "dynamic_element_binding": true,
+      "stable_ui_id_required": true,
+      "public_detail_default_state": "collapsed",
+      "developer_overlay": {
+        "default_state": "collapsed",
+        "required_fields": [
+          "ui_id",
+          "ui_type",
+          "component",
+          "help_id",
+          "description",
+          "source",
+          "config",
+          "version_or_state"
+        ],
+        "optional_fields": [
+          "entity_id",
+          "group_id",
+          "provider",
+          "runtime_diagnostics"
+        ]
+      }
+    },
+    "footer_share": {
+      "available": true,
+      "target_policy": {
+        "home": "stable application root",
+        "nested_surface": "stable semantic root without explicit version when a CURRENT resolver exists"
+      },
+      "interaction": "open contextual help sharing section",
+      "qr_generation": "lazy",
+      "mobile_use_case": "transfer the current application/cockpit to phone, tablet or another display without retyping a long URL"
     }
   },
   "dictionnaire_donnees": {

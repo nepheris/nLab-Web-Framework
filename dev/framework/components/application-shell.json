@@ -4,7 +4,7 @@
     "json_type": "framework_component_config",
     "scope": "framework",
     "schema_id": "SCH_COMPONENT",
-    "artifact_version": "1.0.0",
+    "artifact_version": "1.1.0",
     "introduced_in": "1.12.0",
     "status": "stable",
     "date_creation": "2026-10-03",
@@ -138,8 +138,14 @@
       "Themeable SVG uses currentColor or semantic CSS variables rather than maintaining color-specific asset copies.",
       "Floating windows compose COMP_FLOATING_WINDOW; drag/resize/lock mechanics must not be redefined project by project.",
       "View identity is semantic and comes from NLAB_VIEW_VARIANTS.",
-      "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source."
-    ]
+      "Production bundles may inline the runtime to reduce external requests while preserving this component as the canonical source.",
+      "Displayed site/tool versions and release dates must resolve from canonical runtime metadata rather than hard-coded markup."
+    ],
+    "footer": {
+      "release_metadata": true,
+      "component": "release_metadata_footer",
+      "placement": "discreet_footer"
+    }
   },
   "dictionnaire_donnees": {
     "generated_from_schema": "SCH_COMPONENT",

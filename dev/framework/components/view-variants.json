@@ -1,5 +1,201 @@
 {
-  "metadata":{"id":"NLAB_VIEW_VARIANTS","json_type":"framework_component","scope":"framework","schema_id":"SCH_ARTIFACT","artifact_version":"1.1.0","introduced_in":"1.10.0","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","help_id":"HELP_VIEW_VARIANTS","category":"data_display","tags":["view","cards","list","table","gallery","chart"],"visibility":["public","dev"],"supported_runtime_modes":["static","local","production"]},
-  "Data":{"name":"nLab View Variants","variants":{"cards":{"icon":"view_cards","purpose":"Blocs synthétiques et comparables."},"list":{"icon":"view_list","purpose":"Lecture compacte et séquentielle."},"table":{"icon":"view_table","purpose":"Comparaison structurée de champs."},"gallery":{"icon":"view_gallery","purpose":"Présentation visuelle en mosaïque."},"chart":{"icon":"view_chart","purpose":"Visualisation graphique ou statistique d'une collection ou colonne."}},"rules":["A component may expose one or more registered variants.","HTML and PDF may select different variants for the same logical field or dataset.","Variant identity is semantic and independent from project business data.","Export engines preserve data selection and sorting while allowing a presentation override.","Chart views consume structured numeric/categorical data and preserve an accessible textual/table fallback."]},
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_ARTIFACT","note":"Ajout de la variante graphique en V1.11."}
+  "metadata": {
+    "id": "NLAB_VIEW_VARIANTS",
+    "json_type": "framework_component",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "1.2.0",
+    "introduced_in": "1.10.0",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_VIEW_VARIANTS",
+    "category": "data_display",
+    "tags": [
+      "view",
+      "cards",
+      "list",
+      "table",
+      "gallery",
+      "chart",
+      "kanban",
+      "gantt",
+      "calendar",
+      "timeline",
+      "dependency",
+      "applicability"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
+  },
+  "Data": {
+    "name": "nLab View Variants",
+    "variants": {
+      "cards": {
+        "icon": "view_cards",
+        "purpose": "Blocs synthétiques et comparables.",
+        "requires": []
+      },
+      "list": {
+        "icon": "view_list",
+        "purpose": "Lecture compacte et séquentielle.",
+        "requires": []
+      },
+      "table": {
+        "icon": "view_table",
+        "purpose": "Comparaison structurée de champs avec filtres de colonnes.",
+        "requires": [
+          "structured_fields"
+        ],
+        "features": [
+          "column_filters",
+          "sorting"
+        ]
+      },
+      "gallery": {
+        "icon": "view_gallery",
+        "purpose": "Présentation visuelle en mosaïque.",
+        "requires": []
+      },
+      "chart": {
+        "icon": "view_chart",
+        "purpose": "Visualisation graphique ou statistique d'une collection ou colonne.",
+        "requires": [
+          "numeric_or_categorical"
+        ]
+      },
+      "kanban": {
+        "icon": "view_kanban",
+        "purpose": "Regroupement horizontal par statut, projet, priorité ou autre propriété catégorielle.",
+        "requires": [
+          "categorical_group"
+        ],
+        "features": [
+          "group_by",
+          "horizontal_columns",
+          "read_only_or_drag_adapter"
+        ]
+      },
+      "gantt": {
+        "icon": "view_gantt",
+        "purpose": "Projection temporelle plate d'éléments datés.",
+        "requires": [
+          "temporal"
+        ],
+        "features": [
+          "zoom",
+          "drilldown"
+        ]
+      },
+      "gantt_hierarchical": {
+        "icon": "view_gantt_hierarchy",
+        "purpose": "Projection Gantt regroupée par périmètre ou hiérarchie explicite.",
+        "requires": [
+          "temporal",
+          "hierarchy"
+        ],
+        "features": [
+          "zoom",
+          "expand_collapse",
+          "group_aggregate_bars",
+          "drilldown"
+        ]
+      },
+      "calendar": {
+        "icon": "view_calendar",
+        "purpose": "Projection calendaire d'événements explicitement datés.",
+        "requires": [
+          "temporal"
+        ],
+        "features": [
+          "period_navigation",
+          "zoom"
+        ]
+      },
+      "timeline": {
+        "icon": "view_timeline",
+        "purpose": "Chronologie ordonnée des événements datés.",
+        "requires": [
+          "temporal"
+        ],
+        "features": [
+          "zoom",
+          "drilldown"
+        ]
+      },
+      "dependency": {
+        "icon": "view_dependency",
+        "purpose": "Graphe des dépendances explicites entre éléments.",
+        "requires": [
+          "dependencies"
+        ],
+        "features": [
+          "graph",
+          "edge_type",
+          "lag",
+          "drilldown"
+        ]
+      }
+    },
+    "rules": [
+      "A component may expose one or more registered variants.",
+      "HTML and PDF may select different variants for the same logical field or dataset.",
+      "Variant identity is semantic and independent from project business data.",
+      "Export engines preserve data selection and sorting while allowing a presentation override.",
+      "Chart views consume structured numeric/categorical data and preserve an accessible textual/table fallback.",
+      "Views with unsatisfied applicability requirements are hidden rather than shown as broken or empty controls.",
+      "A shared preferred view may be ignored locally when not applicable, without mutating the shared preference.",
+      "Temporal views operate only on explicit temporal values; missing dates or durations remain unknown.",
+      "Table variants should expose field/column filters when the dataset is filterable.",
+      "Kanban is a presentation of the same canonical dataset; drag/write behavior requires a separate authorized write adapter."
+    ],
+    "applicability": {
+      "policy": "hide_when_not_applicable",
+      "rule": "A view is visible only when all declared requirements can be satisfied by the current dataset/scope.",
+      "requirements": {
+        "structured_fields": "Dataset exposes comparable structured fields.",
+        "numeric_or_categorical": "Dataset exposes at least one numeric or categorical field suitable for aggregation.",
+        "categorical_group": "Dataset exposes at least one categorical grouping field such as status, project or priority.",
+        "temporal": "Current scope exposes at least one explicit temporal value; dates/durations must never be invented.",
+        "hierarchy": "Current scope exposes an explicit hierarchy or grouping relation.",
+        "dependencies": "Current scope exposes at least one explicit dependency edge."
+      },
+      "fallback_order": [
+        "cards",
+        "list",
+        "table"
+      ],
+      "incompatible_shared_preference": "If a shared preferred view is not applicable on a child surface, use the first applicable fallback without overwriting the shared preference."
+    },
+    "time_zoom": {
+      "levels": [
+        "hour",
+        "day",
+        "week",
+        "month",
+        "quarter",
+        "year"
+      ],
+      "applicability": {
+        "hour": "Visible only when the current scope contains timestamp precision finer than a day.",
+        "day": "Visible when temporal data exists.",
+        "week": "Visible when temporal data exists.",
+        "month": "Visible when temporal data exists.",
+        "quarter": "Visible when temporal data exists.",
+        "year": "Visible when temporal data exists."
+      },
+      "rule": "Zoom changes projection density only; it must not create or alter canonical dates."
+    }
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "V1.12 étend les vues de données avec applicabilité, Kanban, Gantt, Gantt hiérarchique, calendrier, chronologie, dépendances et zoom heure→année."
+  }
 }

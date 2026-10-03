@@ -4,11 +4,11 @@
     "json_type": "framework_manifest",
     "scope": "framework",
     "schema_id": "SCH_FRAMEWORK_MANIFEST",
-    "artifact_version": "1.11.0",
+    "artifact_version": "1.12.0",
     "introduced_in": "1.6.0",
     "status": "stable",
     "date_creation": "2026-08-09",
-    "date_mise_a_jour": "2026-09-28",
+    "date_mise_a_jour": "2026-10-03",
     "help_id": "HELP_FRAMEWORK_MANIFEST",
     "category": "governance",
     "tags": [
@@ -28,9 +28,9 @@
   },
   "Data": {
     "name": "framework nLab",
-    "framework_version": "1.15.0",
-    "release_name": "Site Platform Public/Private Split",
-    "release_date": "2026-09-28",
+    "framework_version": "1.16.0",
+    "release_name": "Applicable Data Views + Shared Icon Themes",
+    "release_date": "2026-10-03",
     "release_status": "development",
     "canonical": {
       "framework_manifest": "framework-manifest.json",
@@ -83,7 +83,9 @@
       "site_platform": "site-platform/architecture.json",
       "merchant_site_profile": "site-platform/profiles/merchant-site.json",
       "public_private_split": "site-platform/contracts/public-private-split.json",
-      "external_payment_link": "site-platform/contracts/external-payment-link.json"
+      "external_payment_link": "site-platform/contracts/external-payment-link.json",
+      "icon_theme_registry": "ui/icon-theme-registry.json",
+      "icon_theme_runtime": "ui/icon-theme-runtime.js"
     },
     "demos": {
       "structured_data": {
@@ -152,7 +154,10 @@
       "Client-side hidden controls never substitute for server-side permission checks.",
       "The generic site platform is maintained in nLab-Web-Framework; client repositories contain generated public artifacts and client-specific public data only.",
       "Private manager surfaces are deployed separately from the public site and enforce Google identity plus server-side authorization.",
-      "Payment integrations use provider-hosted links or deep links; raw payment credentials are never collected or stored by nLab."
+      "Payment integrations use provider-hosted links or deep links; raw payment credentials are never collected or stored by nLab.",
+      "Icon identity belongs only to icon-registry.json; applications reference semantic icon IDs.",
+      "Icon theme selection and application-specific SVG overrides belong only to icon-theme-registry.json and its runtime contract.",
+      "Application icon themes override registered IDs and fall back to the nLab default; they do not redefine action semantics."
     ],
     "versioning": {
       "framework_version_source": "Data.framework_version",

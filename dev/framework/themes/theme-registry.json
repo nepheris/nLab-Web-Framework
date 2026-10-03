@@ -1,23 +1,97 @@
 {
-  "metadata":{"id":"NLAB_THEME_REGISTRY","json_type":"framework_theme_registry","scope":"framework","schema_id":"SCH_THEME","artifact_version":"1.2.0","introduced_in":"1.6.0","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","help_id":"HELP_THEME_REGISTRY","category":"themes","tags":["theme","registry"],"visibility":["public","dev"],"supported_runtime_modes":["static","local","production"]},
-  "Data":{
-    "purpose":"Registre canonique des thèmes et de leurs artefacts. Les composants n'énumèrent pas eux-mêmes les thèmes disponibles.",
-    "design_tokens":"design-tokens.json",
-    "palette_presets":"theme-palette-presets.json",
-    "theme_contexts":"theme-contexts.json",
-    "runtime_files":["palette-deriver.js","theme-engine.js","theme-configurator.js"],
-    "engine":"theme-engine.js",
-    "palette_deriver":"palette-deriver.js",
-    "configurator":"theme-configurator.js",
-    "default_theme":"shadow-soft",
-    "themes":[
-      {"id":"shadow-soft","definition":"shadow-soft.json","stylesheet":"shadow-soft.css","status":"stable","dominant_color_mode":"derive","runtime_global":"NLabPaletteDeriver"},
-      {"id":"shadow-sage","definition":"shadow-sage.json","stylesheet":"shadow-sage.css","status":"stable","dominant_color_mode":"derive","runtime_global":"NLabPaletteDeriver","deprecated_adapter":"shadow-sage-palette.js"},
-      {"id":"clean-spectrum","definition":"clean-spectrum.json","status":"stable","dominant_color_mode":"derive","runtime_global":"NLabPaletteDeriver"},
-      {"id":"dark-duotone","definition":"dark-duotone.json","status":"experimental","dominant_color_mode":"theme_defined"}
+  "metadata": {
+    "id": "NLAB_THEME_REGISTRY",
+    "json_type": "framework_theme_registry",
+    "scope": "framework",
+    "schema_id": "SCH_THEME",
+    "artifact_version": "1.3.0",
+    "introduced_in": "1.6.0",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_THEME_REGISTRY",
+    "category": "themes",
+    "tags": [
+      "theme",
+      "registry"
     ],
-    "resolution_order":["design_token_defaults","theme_overrides","preset_palette","project_overrides","theme_context","runtime_user_overrides"],
-    "rules":["Only this registry lists framework themes.","The theme engine is theme-neutral.","A generic palette deriver may be shared by multiple themes.","Theme-specific JS runtimes are deprecated adapters after 1.6.0.","The default theme is defined here and not repeated in configurators or components.","Public, workspace, private and dev contexts reference registered themes instead of duplicating theme definitions."]
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
   },
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_THEME","note":"V1.11 ajoute des contextes de thème pour public/workspace/private/dev."}
+  "Data": {
+    "purpose": "Registre canonique des thèmes et de leurs artefacts. Les composants n'énumèrent pas eux-mêmes les thèmes disponibles.",
+    "design_tokens": "design-tokens.json",
+    "palette_presets": "theme-palette-presets.json",
+    "theme_contexts": "theme-contexts.json",
+    "runtime_files": [
+      "palette-deriver.js",
+      "theme-engine.js",
+      "theme-configurator.js"
+    ],
+    "engine": "theme-engine.js",
+    "palette_deriver": "palette-deriver.js",
+    "configurator": "theme-configurator.js",
+    "default_theme": "shadow-soft",
+    "themes": [
+      {
+        "id": "shadow-soft",
+        "definition": "shadow-soft.json",
+        "stylesheet": "shadow-soft.css",
+        "status": "stable",
+        "dominant_color_mode": "derive",
+        "runtime_global": "NLabPaletteDeriver"
+      },
+      {
+        "id": "shadow-sage",
+        "definition": "shadow-sage.json",
+        "stylesheet": "shadow-sage.css",
+        "status": "stable",
+        "dominant_color_mode": "derive",
+        "runtime_global": "NLabPaletteDeriver",
+        "deprecated_adapter": "shadow-sage-palette.js"
+      },
+      {
+        "id": "clean-spectrum",
+        "definition": "clean-spectrum.json",
+        "status": "stable",
+        "dominant_color_mode": "derive",
+        "runtime_global": "NLabPaletteDeriver"
+      },
+      {
+        "id": "dark-duotone",
+        "definition": "dark-duotone.json",
+        "status": "experimental",
+        "dominant_color_mode": "theme_defined"
+      }
+    ],
+    "resolution_order": [
+      "design_token_defaults",
+      "theme_overrides",
+      "preset_palette",
+      "project_overrides",
+      "theme_context",
+      "runtime_user_overrides"
+    ],
+    "rules": [
+      "Only this registry lists framework themes.",
+      "The theme engine is theme-neutral.",
+      "A generic palette deriver may be shared by multiple themes.",
+      "Theme-specific JS runtimes are deprecated adapters after 1.6.0.",
+      "The default theme is defined here and not repeated in configurators or components.",
+      "Public, workspace, private and dev contexts reference registered themes instead of duplicating theme definitions.",
+      "Visual themes and icon themes are independent axes: CSS colors may change without changing SVG geometry, and an application may optionally select a different registered icon theme."
+    ],
+    "icon_theme_registry": "../ui/icon-theme-registry.json"
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_THEME",
+    "note": "V1.11 ajoute des contextes de thème pour public/workspace/private/dev."
+  }
 }

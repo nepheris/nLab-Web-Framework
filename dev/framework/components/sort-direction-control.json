@@ -1,0 +1,71 @@
+{
+  "metadata": {
+    "id": "COMP_SORT_DIRECTION_CONTROL",
+    "json_type": "framework_component_config",
+    "scope": "framework",
+    "schema_id": "SCH_COMPONENT",
+    "artifact_version": "1.0.0",
+    "introduced_in": "1.12.0",
+    "status": "stable",
+    "date_creation": "2026-10-03",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_SORT_DIRECTION_CONTROL",
+    "category": "data",
+    "tags": [
+      "sort",
+      "ascending",
+      "descending",
+      "az",
+      "za",
+      "svg"
+    ],
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "NLAB_ICON_REGISTRY"
+    ]
+  },
+  "Data": {
+    "component": "sort_direction_control",
+    "purpose": "Contrôle compact générique pour inverser le sens de tri sans multiplier les libellés métier.",
+    "states": {
+      "az": {
+        "direction": "ascending",
+        "icon": "sort_az",
+        "label": "A → Z"
+      },
+      "za": {
+        "direction": "descending",
+        "icon": "sort_za",
+        "label": "Z → A"
+      }
+    },
+    "comparator_policy": "The dataset supplies the comparator. Strings use locale collation, semantic versions use semantic-version ordering, dates use chronological ordering, numbers use numeric ordering.",
+    "persistence": {
+      "allowed": true,
+      "scope": "surface_or_component_preference"
+    },
+    "accessibility": {
+      "rule": "Icon-only buttons must expose the current direction and the action that will occur on activation."
+    },
+    "svg": {
+      "theme_binding": "currentColor"
+    },
+    "rules": [
+      "A/Z and Z/A represent generic ascending/descending direction; they do not force lexical comparison.",
+      "The active dataset decides the comparison key and comparator.",
+      "A single toggle may switch between az and za when no separate sort-key chooser is needed."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_COMPONENT",
+    "note": "Primitive commune de tri croissant/décroissant avec SVG A→Z / Z→A."
+  }
+}

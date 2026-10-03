@@ -4,7 +4,7 @@
     "json_type": "framework_template",
     "scope": "framework",
     "schema_id": "SCH_ARTIFACT",
-    "artifact_version": "1.2.0",
+    "artifact_version": "1.3.0",
     "introduced_in": "1.1.0",
     "status": "stable",
     "date_creation": "2026-08-09",
@@ -68,6 +68,13 @@
         ],
         "local_preferences": true,
         "themeable_svg_currentColor": true
+      },
+      "visual_media_slot": {
+        "mode": "PLACEHOLDER",
+        "cards": "show_medium",
+        "gallery": "show_large",
+        "list": "hide_or_compact",
+        "theme_binding": "currentColor"
       }
     },
     "business_slots": [
@@ -75,7 +82,8 @@
       "site_subtitle",
       "navigation",
       "cards",
-      "optional_kpis"
+      "optional_kpis",
+      "visual_media"
     ]
   },
   "dictionnaire_donnees": {

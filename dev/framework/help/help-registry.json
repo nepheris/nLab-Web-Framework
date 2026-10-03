@@ -4,7 +4,7 @@
     "json_type": "framework_help_registry",
     "scope": "framework",
     "schema_id": "SCH_HELP_REGISTRY",
-    "artifact_version": "1.3.0",
+    "artifact_version": "1.4.0",
     "introduced_in": "1.6.1",
     "status": "stable",
     "date_creation": "2026-08-09",
@@ -123,6 +123,13 @@
         "public": {
           "short_text": "Change la manière de présenter les mêmes données.",
           "long_text": "Vous pouvez choisir une vue en cartes, liste, tableau, galerie ou graphique lorsque le composant l’autorise. Le contenu logique reste identique ; seule la présentation change."
+        }
+      },
+      {
+        "help_id": "HELP_RELEASE_METADATA_FOOTER",
+        "public": {
+          "short_text": "Affiche la version réellement active du site ou de l’outil.",
+          "long_text": "Les numéros de version, la date de publication et l’identifiant de build proviennent des métadonnées de release actives. Ils ne sont pas recopiés manuellement dans la page, ce qui évite d’afficher une version obsolète."
         }
       }
     ],

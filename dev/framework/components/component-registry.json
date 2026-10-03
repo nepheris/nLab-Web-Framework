@@ -1,51 +1,692 @@
 {
-  "metadata":{"id":"NLAB_COMPONENT_REGISTRY","json_type":"framework_component_registry","scope":"framework","schema_id":"SCH_COMPONENT","artifact_version":"2.7.0","introduced_in":"1.1.0","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","help_id":"HELP_COMPONENT_REGISTRY","category":"registry","tags":["components","composition"],"visibility":["public","dev"],"supported_runtime_modes":["static","local","production"],"dependencies":["NLAB_COMPOSITION_ENGINE","NLAB_BUTTON_REGISTRY","NLAB_DESIGN_TOKENS","NLAB_HELP_REGISTRY"]},
-  "Data":{
-    "component":"component_registry",
-    "components":[
-      {"id":"header_navigation","category":"navigation","config_driven":true,"features":["sticky","quick_links","hierarchical_menu","help_trigger","responsive"]},
-      {"id":"sidebar_scrollspy","category":"navigation","config_driven":true,"default_config":"sidebar-scrollspy.json","features":["collapsed_rail","expanded_sidebar","scrollspy","hierarchical_details","hash_reveal","heading_fold"]},
-      {"id":"footer","category":"layout","config_driven":true,"features":["project_content","version_slot","links"]},
-      {"id":"hero","category":"layout","config_driven":true,"features":["compact","standard","media","dashboard","full","height_limit","content_width","radius","shadow","gradient"]},
-      {"id":"floating_toolbar","category":"ui","config_driven":true,"default_config":"toolbar-full.json","primitive":true,"features":["anchor","move","lock","collapse","persistence","viewport_recovery","action_registry","button_registry","extension_slots"]},
-      {"id":"toolbar_dev_extension","category":"devtools","config_driven":true,"default_config":"toolbar-dev-extension.json","composes":["floating_toolbar"],"features":["inspect","snapshot","smoke_test","logs"]},
-      {"id":"floating_window","category":"ui","config_driven":true,"default_config":"floating-window.json","primitive":true,"features":["move","lock","resize_8_directions","dock","undock","reset","fullscreen","close","persistence","viewport_clamp","extension_slots"]},
-      {"id":"notification_center","category":"feedback","config_driven":true,"default_config":"notification-center.json","features":["toast","banner","inline","queue","deduplicate","aria_live","history"]},
-      {"id":"confirmation_dialog","category":"feedback","config_driven":true,"default_config":"confirmation-dialog.json","features":["confirm","warning","danger","choice","focus_trap","keyboard_navigation"]},
-      {"id":"log_console","category":"diagnostics","config_driven":true,"default_config":"log-console.json","composes":["floating_window"],"features":["compact_bar","expanded_panel","floating_panel","docked_panel","full_page","filters","history"]},
-      {"id":"foldable","category":"ui","config_driven":true,"primitive":true,"features":["section","subsection","default_state","global_state_control","context_help"]},
-      {"id":"contextual_help","category":"help","config_driven":true,"composes":["floating_window","foldable"],"features":["public_short_text","public_long_text","tooltip_from_short_text","collapsible_long_text","dev_overlay","collapsible_dev_sections","metadata_binding","schema_binding","help_registry_binding"]},
-      {"id":"dynamic_svg_text","category":"ui","config_driven":true,"default_config":"../ui/dynamic-svg-text.json","primitive":true,"features":["numbers","time","units","currencies","punctuation","operators","short_labels","currentColor","dynamic_width"]},
-      {"id":"view_variants","category":"data_display","config_driven":true,"default_config":"view-variants.json","primitive":true,"features":["cards","list","table","gallery","chart","html_pdf_override"]},
-      {"id":"field_renderers","category":"data","config_driven":true,"default_config":"field-renderers.json","primitive":true,"features":["type_resolution","display_variants","input_variants","links","images","references","arrays","objects"]},
-      {"id":"input_profiles","category":"forms","config_driven":true,"default_config":"input-profiles.json","primitive":true,"features":["free","suggested","fixed","hybrid","multiple","hierarchical"]},
-      {"id":"hierarchical_options","category":"data","config_driven":true,"default_config":"hierarchical-options.json","features":["flat_or_nested","unlimited_depth","dropdown","tree","image_icon_fallback","reorder","move_parent"]},
-      {"id":"data_visualization","category":"data_display","config_driven":true,"default_config":"data-visualization.json","features":["statistics","histogram","sparkline","bar","progress","conditional_formatting","table_summary"]},
-      {"id":"structured_data_engine","category":"data","config_driven":true,"default_config":"structured-data-engine.json","composes":["data_editor","field_renderers","input_profiles","hierarchical_options","data_visualization","view_variants","contextual_help","export_engine"],"features":["schema_driven_json","viewer","editor","configurator","developer","public_editing_policy","exports"]},
-      {"id":"search_engine","category":"search","config_driven":true,"default_config":"search-engine.json","composes":["view_variants","input_profiles","hierarchical_options"],"features":["core","adapters","filters","scorers","renderers","cards_list_table_gallery_chart","token_chips","autocomplete","responsive_pagination","export"]},
-      {"id":"data_editor","category":"data","config_driven":true,"default_config":"data-editor.json","composes":["field_renderers","input_profiles","hierarchical_options","data_visualization","view_variants"],"features":["multi_view","schema_driven","reference_resolution","field_help","nested_editing","table","tree","chart","raw_json","preview","dirty_state","public_policy","provider_save_adapter"]},
-      {"id":"document_list","category":"documents","config_driven":true,"features":["open","download","source","type","language","status"]},
-      {"id":"document_table","category":"documents","config_driven":true,"features":["open","download","source","type","language","status"]},
-      {"id":"repository_document_browser","category":"documents","config_driven":true,"features":["repository_tree","prefix_filter","extension_filter","regex_filter","empty_state","refresh"]},
-      {"id":"document_viewer","category":"documents","config_driven":true,"features":["safe_url_validation","embedded_view","open_original","fallback_message"]},
-      {"id":"qr_generator","category":"export","config_driven":true,"default_config":"../modules/qr-generator.json","features":["page_url","custom_url","field_binding","svg","canvas","theme_binding","logo","static_adapter","browser_adapter"]},
-      {"id":"pdf_renderer","category":"export","config_driven":true,"default_config":"../modules/pdf-renderer.json","composes":["view_variants"],"features":["current_view","component","dataset","selection","search_results","field_visibility","export_profiles","variant_overrides","print_css","registered_pdf_adapter","theme_binding","lightweight_vector_text"]},
-      {"id":"export_engine","category":"export","config_driven":true,"default_config":"../modules/export-engine.json","composes":["qr_generator","pdf_renderer","view_variants"],"features":["pdf","csv","json","image","qr","search_results","data_editor","current_view","selection"]},
-      {"id":"scheduling_actions","category":"integration","config_driven":true,"default_config":"scheduling-actions.json","features":["ics","provider_buttons","dropdown","compact"]},
-      {"id":"meeting_launcher","category":"integration","config_driven":true,"default_config":"meeting-launcher.json","features":["button","card","embed","modal","external","provider_adapter"]},
-      {"id":"file_attachment_input","category":"forms","config_driven":true,"default_config":"file-attachment-input.json","features":["file_picker","drag_drop","multiple","validation","remove","local_memory"]},
-      {"id":"audio_recorder","category":"media","config_driven":true,"default_config":"audio-recorder.json","features":["microphone_permission","record","pause","stop","preview","blob_output","file_fallback"]},
-      {"id":"draft_controls","category":"forms","config_driven":true,"default_config":"draft-controls.json","features":["save","restore","clear","export","import","optional_local_persistence"]},
-      {"id":"kpi_grid","category":"data_display","config_driven":true,"features":["responsive_grid","label","value","status","compact_variant"]},
-      {"id":"tabs","category":"navigation","config_driven":true,"primitive":true,"features":["aria_selected","tabpanel","responsive_wrap"]},
-      {"id":"form_field","category":"forms","config_driven":true,"primitive":true,"features":["label","help_text","readonly","select","password_action","validation_state"]},
-      {"id":"semantic_badge","category":"status","config_driven":true,"primitive":true,"features":["info","warning","danger","success","beta","priority"]},
-      {"id":"theme_configurator","category":"themes","config_driven":true,"features":["theme_registry","theme_contexts","preset_palette","named_alias","custom_hex","live_preview"]}
+  "metadata": {
+    "id": "NLAB_COMPONENT_REGISTRY",
+    "json_type": "framework_component_registry",
+    "scope": "framework",
+    "schema_id": "SCH_COMPONENT",
+    "artifact_version": "2.8.0",
+    "introduced_in": "1.1.0",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "help_id": "HELP_COMPONENT_REGISTRY",
+    "category": "registry",
+    "tags": [
+      "components",
+      "composition"
     ],
-    "canonical_source":"../framework-manifest.json#Data.canonical",
-    "registry_keys":{"buttons":"button_registry","button_templates":"button_templates","themes":"theme_registry","help":"help_registry","composition":"composition_engine"},
-    "pattern_registry":"pattern-registry.json",
-    "rules":["Business data and project labels stay outside framework components.","Primitive mechanics are composed, never copied.","All actions reference stable button IDs.","Visual styling comes from semantic tokens and themes.","Provider-specific behavior remains in adapters.","Public help wording comes from the help registry; Dev facts are generated.","Canonical registry paths are resolved from framework-manifest.json.","A new component must justify behavior that cannot be assembled from registered primitives.","Field rendering and input behavior are configured through shared registries rather than recoded per editor or form."]
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ],
+    "dependencies": [
+      "NLAB_COMPOSITION_ENGINE",
+      "NLAB_BUTTON_REGISTRY",
+      "NLAB_DESIGN_TOKENS",
+      "NLAB_HELP_REGISTRY"
+    ]
   },
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_COMPONENT","note":"V1.11 généralise l'éditeur JSON en moteur de données structurées et mutualise renderers, saisies, hiérarchies et visualisations."}
+  "Data": {
+    "component": "component_registry",
+    "components": [
+      {
+        "id": "application_shell",
+        "category": "layout",
+        "config_driven": true,
+        "default_config": "application-shell.json",
+        "runtime": "application-shell-runtime.js",
+        "composes": [
+          "header_navigation",
+          "floating_window",
+          "view_variants",
+          "foldable",
+          "contextual_help"
+        ],
+        "features": [
+          "home_recovery",
+          "header_preferences",
+          "sticky_fixed_static",
+          "auto_hide",
+          "shadow",
+          "compact",
+          "view_variants",
+          "fold_state",
+          "floating_windows",
+          "local_preferences",
+          "themeable_svg"
+        ]
+      },
+      {
+        "id": "header_navigation",
+        "category": "navigation",
+        "config_driven": true,
+        "features": [
+          "sticky",
+          "quick_links",
+          "hierarchical_menu",
+          "help_trigger",
+          "responsive"
+        ]
+      },
+      {
+        "id": "sidebar_scrollspy",
+        "category": "navigation",
+        "config_driven": true,
+        "default_config": "sidebar-scrollspy.json",
+        "features": [
+          "collapsed_rail",
+          "expanded_sidebar",
+          "scrollspy",
+          "hierarchical_details",
+          "hash_reveal",
+          "heading_fold"
+        ]
+      },
+      {
+        "id": "footer",
+        "category": "layout",
+        "config_driven": true,
+        "features": [
+          "project_content",
+          "version_slot",
+          "links"
+        ]
+      },
+      {
+        "id": "hero",
+        "category": "layout",
+        "config_driven": true,
+        "features": [
+          "compact",
+          "standard",
+          "media",
+          "dashboard",
+          "full",
+          "height_limit",
+          "content_width",
+          "radius",
+          "shadow",
+          "gradient"
+        ]
+      },
+      {
+        "id": "floating_toolbar",
+        "category": "ui",
+        "config_driven": true,
+        "default_config": "toolbar-full.json",
+        "primitive": true,
+        "features": [
+          "anchor",
+          "move",
+          "lock",
+          "collapse",
+          "persistence",
+          "viewport_recovery",
+          "action_registry",
+          "button_registry",
+          "extension_slots"
+        ]
+      },
+      {
+        "id": "toolbar_dev_extension",
+        "category": "devtools",
+        "config_driven": true,
+        "default_config": "toolbar-dev-extension.json",
+        "composes": [
+          "floating_toolbar"
+        ],
+        "features": [
+          "inspect",
+          "snapshot",
+          "smoke_test",
+          "logs"
+        ]
+      },
+      {
+        "id": "floating_window",
+        "category": "ui",
+        "config_driven": true,
+        "default_config": "floating-window.json",
+        "primitive": true,
+        "features": [
+          "move",
+          "lock",
+          "resize_8_directions",
+          "dock",
+          "undock",
+          "reset",
+          "fullscreen",
+          "close",
+          "persistence",
+          "viewport_clamp",
+          "extension_slots"
+        ]
+      },
+      {
+        "id": "notification_center",
+        "category": "feedback",
+        "config_driven": true,
+        "default_config": "notification-center.json",
+        "features": [
+          "toast",
+          "banner",
+          "inline",
+          "queue",
+          "deduplicate",
+          "aria_live",
+          "history"
+        ]
+      },
+      {
+        "id": "confirmation_dialog",
+        "category": "feedback",
+        "config_driven": true,
+        "default_config": "confirmation-dialog.json",
+        "features": [
+          "confirm",
+          "warning",
+          "danger",
+          "choice",
+          "focus_trap",
+          "keyboard_navigation"
+        ]
+      },
+      {
+        "id": "log_console",
+        "category": "diagnostics",
+        "config_driven": true,
+        "default_config": "log-console.json",
+        "composes": [
+          "floating_window"
+        ],
+        "features": [
+          "compact_bar",
+          "expanded_panel",
+          "floating_panel",
+          "docked_panel",
+          "full_page",
+          "filters",
+          "history"
+        ]
+      },
+      {
+        "id": "foldable",
+        "category": "ui",
+        "config_driven": true,
+        "primitive": true,
+        "features": [
+          "section",
+          "subsection",
+          "default_state",
+          "global_state_control",
+          "context_help"
+        ]
+      },
+      {
+        "id": "contextual_help",
+        "category": "help",
+        "config_driven": true,
+        "composes": [
+          "floating_window",
+          "foldable"
+        ],
+        "features": [
+          "public_short_text",
+          "public_long_text",
+          "tooltip_from_short_text",
+          "collapsible_long_text",
+          "dev_overlay",
+          "collapsible_dev_sections",
+          "metadata_binding",
+          "schema_binding",
+          "help_registry_binding"
+        ]
+      },
+      {
+        "id": "dynamic_svg_text",
+        "category": "ui",
+        "config_driven": true,
+        "default_config": "../ui/dynamic-svg-text.json",
+        "primitive": true,
+        "features": [
+          "numbers",
+          "time",
+          "units",
+          "currencies",
+          "punctuation",
+          "operators",
+          "short_labels",
+          "currentColor",
+          "dynamic_width"
+        ]
+      },
+      {
+        "id": "view_variants",
+        "category": "data_display",
+        "config_driven": true,
+        "default_config": "view-variants.json",
+        "primitive": true,
+        "features": [
+          "cards",
+          "list",
+          "table",
+          "gallery",
+          "chart",
+          "html_pdf_override"
+        ]
+      },
+      {
+        "id": "field_renderers",
+        "category": "data",
+        "config_driven": true,
+        "default_config": "field-renderers.json",
+        "primitive": true,
+        "features": [
+          "type_resolution",
+          "display_variants",
+          "input_variants",
+          "links",
+          "images",
+          "references",
+          "arrays",
+          "objects"
+        ]
+      },
+      {
+        "id": "input_profiles",
+        "category": "forms",
+        "config_driven": true,
+        "default_config": "input-profiles.json",
+        "primitive": true,
+        "features": [
+          "free",
+          "suggested",
+          "fixed",
+          "hybrid",
+          "multiple",
+          "hierarchical"
+        ]
+      },
+      {
+        "id": "hierarchical_options",
+        "category": "data",
+        "config_driven": true,
+        "default_config": "hierarchical-options.json",
+        "features": [
+          "flat_or_nested",
+          "unlimited_depth",
+          "dropdown",
+          "tree",
+          "image_icon_fallback",
+          "reorder",
+          "move_parent"
+        ]
+      },
+      {
+        "id": "data_visualization",
+        "category": "data_display",
+        "config_driven": true,
+        "default_config": "data-visualization.json",
+        "features": [
+          "statistics",
+          "histogram",
+          "sparkline",
+          "bar",
+          "progress",
+          "conditional_formatting",
+          "table_summary"
+        ]
+      },
+      {
+        "id": "structured_data_engine",
+        "category": "data",
+        "config_driven": true,
+        "default_config": "structured-data-engine.json",
+        "composes": [
+          "data_editor",
+          "field_renderers",
+          "input_profiles",
+          "hierarchical_options",
+          "data_visualization",
+          "view_variants",
+          "contextual_help",
+          "export_engine"
+        ],
+        "features": [
+          "schema_driven_json",
+          "viewer",
+          "editor",
+          "configurator",
+          "developer",
+          "public_editing_policy",
+          "exports"
+        ]
+      },
+      {
+        "id": "search_engine",
+        "category": "search",
+        "config_driven": true,
+        "default_config": "search-engine.json",
+        "composes": [
+          "view_variants",
+          "input_profiles",
+          "hierarchical_options"
+        ],
+        "features": [
+          "core",
+          "adapters",
+          "filters",
+          "scorers",
+          "renderers",
+          "cards_list_table_gallery_chart",
+          "token_chips",
+          "autocomplete",
+          "responsive_pagination",
+          "export"
+        ]
+      },
+      {
+        "id": "data_editor",
+        "category": "data",
+        "config_driven": true,
+        "default_config": "data-editor.json",
+        "composes": [
+          "field_renderers",
+          "input_profiles",
+          "hierarchical_options",
+          "data_visualization",
+          "view_variants"
+        ],
+        "features": [
+          "multi_view",
+          "schema_driven",
+          "reference_resolution",
+          "field_help",
+          "nested_editing",
+          "table",
+          "tree",
+          "chart",
+          "raw_json",
+          "preview",
+          "dirty_state",
+          "public_policy",
+          "provider_save_adapter"
+        ]
+      },
+      {
+        "id": "document_list",
+        "category": "documents",
+        "config_driven": true,
+        "features": [
+          "open",
+          "download",
+          "source",
+          "type",
+          "language",
+          "status"
+        ]
+      },
+      {
+        "id": "document_table",
+        "category": "documents",
+        "config_driven": true,
+        "features": [
+          "open",
+          "download",
+          "source",
+          "type",
+          "language",
+          "status"
+        ]
+      },
+      {
+        "id": "repository_document_browser",
+        "category": "documents",
+        "config_driven": true,
+        "features": [
+          "repository_tree",
+          "prefix_filter",
+          "extension_filter",
+          "regex_filter",
+          "empty_state",
+          "refresh"
+        ]
+      },
+      {
+        "id": "document_viewer",
+        "category": "documents",
+        "config_driven": true,
+        "features": [
+          "safe_url_validation",
+          "embedded_view",
+          "open_original",
+          "fallback_message"
+        ]
+      },
+      {
+        "id": "qr_generator",
+        "category": "export",
+        "config_driven": true,
+        "default_config": "../modules/qr-generator.json",
+        "features": [
+          "page_url",
+          "custom_url",
+          "field_binding",
+          "svg",
+          "canvas",
+          "theme_binding",
+          "logo",
+          "static_adapter",
+          "browser_adapter"
+        ]
+      },
+      {
+        "id": "pdf_renderer",
+        "category": "export",
+        "config_driven": true,
+        "default_config": "../modules/pdf-renderer.json",
+        "composes": [
+          "view_variants"
+        ],
+        "features": [
+          "current_view",
+          "component",
+          "dataset",
+          "selection",
+          "search_results",
+          "field_visibility",
+          "export_profiles",
+          "variant_overrides",
+          "print_css",
+          "registered_pdf_adapter",
+          "theme_binding",
+          "lightweight_vector_text"
+        ]
+      },
+      {
+        "id": "export_engine",
+        "category": "export",
+        "config_driven": true,
+        "default_config": "../modules/export-engine.json",
+        "composes": [
+          "qr_generator",
+          "pdf_renderer",
+          "view_variants"
+        ],
+        "features": [
+          "pdf",
+          "csv",
+          "json",
+          "image",
+          "qr",
+          "search_results",
+          "data_editor",
+          "current_view",
+          "selection"
+        ]
+      },
+      {
+        "id": "scheduling_actions",
+        "category": "integration",
+        "config_driven": true,
+        "default_config": "scheduling-actions.json",
+        "features": [
+          "ics",
+          "provider_buttons",
+          "dropdown",
+          "compact"
+        ]
+      },
+      {
+        "id": "meeting_launcher",
+        "category": "integration",
+        "config_driven": true,
+        "default_config": "meeting-launcher.json",
+        "features": [
+          "button",
+          "card",
+          "embed",
+          "modal",
+          "external",
+          "provider_adapter"
+        ]
+      },
+      {
+        "id": "file_attachment_input",
+        "category": "forms",
+        "config_driven": true,
+        "default_config": "file-attachment-input.json",
+        "features": [
+          "file_picker",
+          "drag_drop",
+          "multiple",
+          "validation",
+          "remove",
+          "local_memory"
+        ]
+      },
+      {
+        "id": "audio_recorder",
+        "category": "media",
+        "config_driven": true,
+        "default_config": "audio-recorder.json",
+        "features": [
+          "microphone_permission",
+          "record",
+          "pause",
+          "stop",
+          "preview",
+          "blob_output",
+          "file_fallback"
+        ]
+      },
+      {
+        "id": "draft_controls",
+        "category": "forms",
+        "config_driven": true,
+        "default_config": "draft-controls.json",
+        "features": [
+          "save",
+          "restore",
+          "clear",
+          "export",
+          "import",
+          "optional_local_persistence"
+        ]
+      },
+      {
+        "id": "kpi_grid",
+        "category": "data_display",
+        "config_driven": true,
+        "features": [
+          "responsive_grid",
+          "label",
+          "value",
+          "status",
+          "compact_variant"
+        ]
+      },
+      {
+        "id": "tabs",
+        "category": "navigation",
+        "config_driven": true,
+        "primitive": true,
+        "features": [
+          "aria_selected",
+          "tabpanel",
+          "responsive_wrap"
+        ]
+      },
+      {
+        "id": "form_field",
+        "category": "forms",
+        "config_driven": true,
+        "primitive": true,
+        "features": [
+          "label",
+          "help_text",
+          "readonly",
+          "select",
+          "password_action",
+          "validation_state"
+        ]
+      },
+      {
+        "id": "semantic_badge",
+        "category": "status",
+        "config_driven": true,
+        "primitive": true,
+        "features": [
+          "info",
+          "warning",
+          "danger",
+          "success",
+          "beta",
+          "priority"
+        ]
+      },
+      {
+        "id": "theme_configurator",
+        "category": "themes",
+        "config_driven": true,
+        "features": [
+          "theme_registry",
+          "theme_contexts",
+          "preset_palette",
+          "named_alias",
+          "custom_hex",
+          "live_preview"
+        ]
+      }
+    ],
+    "canonical_source": "../framework-manifest.json#Data.canonical",
+    "registry_keys": {
+      "buttons": "button_registry",
+      "button_templates": "button_templates",
+      "themes": "theme_registry",
+      "help": "help_registry",
+      "composition": "composition_engine"
+    },
+    "pattern_registry": "pattern-registry.json",
+    "rules": [
+      "Business data and project labels stay outside framework components.",
+      "Primitive mechanics are composed, never copied.",
+      "All actions reference stable button IDs.",
+      "Visual styling comes from semantic tokens and themes.",
+      "Provider-specific behavior remains in adapters.",
+      "Public help wording comes from the help registry; Dev facts are generated.",
+      "Canonical registry paths are resolved from framework-manifest.json.",
+      "A new component must justify behavior that cannot be assembled from registered primitives.",
+      "Field rendering and input behavior are configured through shared registries rather than recoded per editor or form."
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_COMPONENT",
+    "note": "V1.11 généralise l'éditeur JSON en moteur de données structurées et mutualise renderers, saisies, hiérarchies et visualisations."
+  }
 }

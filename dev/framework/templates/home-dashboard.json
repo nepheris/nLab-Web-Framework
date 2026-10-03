@@ -1,5 +1,85 @@
 {
-  "metadata":{"id":"TPL_HOME_DASHBOARD","json_type":"framework_template","scope":"framework","schema_id":"SCH_ARTIFACT","artifact_version":"1.1.0","introduced_in":"1.1.0","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","visibility":["public","dev"],"supported_runtime_modes":["static","local","production"]},
-  "Data":{"name":"Home Dashboard","purpose":"Page d'accueil générique avec accès rapides, hero compact et cartes de rubriques.","layout":["header_navigation","hero","section_index","optional_kpis","optional_documents","footer","floating_toolbar"],"component_defaults":{"hero":{"variant":"compact","width":"content","max_height":"25vh","radius":"lg","shadow":"soft","gradient":"theme","foldable":false},"section_index":{"foldable":true,"help":true},"header_navigation":{"sticky":true}},"business_slots":["site_title","site_subtitle","navigation","cards","optional_kpis"]},
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_ARTIFACT","note":"Template migré vers Metadata V2."}
+  "metadata": {
+    "id": "TPL_HOME_DASHBOARD",
+    "json_type": "framework_template",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "1.2.0",
+    "introduced_in": "1.1.0",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "visibility": [
+      "public",
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
+  },
+  "Data": {
+    "name": "Home Dashboard",
+    "purpose": "Page d'accueil générique avec accès rapides, hero compact et cartes de rubriques.",
+    "layout": [
+      "application_shell",
+      "header_navigation",
+      "hero",
+      "section_index",
+      "optional_kpis",
+      "optional_documents",
+      "footer",
+      "floating_toolbar"
+    ],
+    "component_defaults": {
+      "hero": {
+        "variant": "compact",
+        "width": "content",
+        "max_height": "25vh",
+        "radius": "lg",
+        "shadow": "soft",
+        "gradient": "theme",
+        "foldable": false
+      },
+      "section_index": {
+        "foldable": true,
+        "help": true
+      },
+      "header_navigation": {
+        "sticky": true
+      },
+      "application_shell": {
+        "header_mode": "sticky",
+        "header_visible": true,
+        "header_shadow": true,
+        "header_compact": false,
+        "header_auto_hide": false,
+        "default_view": "cards",
+        "allowed_views": [
+          "cards",
+          "list",
+          "gallery"
+        ],
+        "floating_windows": [
+          "navigation",
+          "help",
+          "settings"
+        ],
+        "local_preferences": true,
+        "themeable_svg_currentColor": true
+      }
+    },
+    "business_slots": [
+      "site_title",
+      "site_subtitle",
+      "navigation",
+      "cards",
+      "optional_kpis"
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "Template migré vers Metadata V2."
+  }
 }

@@ -1,5 +1,73 @@
 {
-  "metadata":{"id":"PRESET_SHADOW_SAGE_FULL","json_type":"framework_preset","scope":"framework","schema_id":"SCH_ARTIFACT","artifact_version":"1.1.2","introduced_in":"1.1.2","status":"stable","date_creation":"2026-08-09","date_mise_a_jour":"2026-08-09","visibility":["dev"],"supported_runtime_modes":["static","local","production"]},
-  "Data":{"name":"nLab Shadow Sage Full","description":"Preset prêt à l'emploi combinant Shadow Sage, palette générée depuis une couleur dominante, toolbar complète, sections repliables et fenêtres flottantes génériques.","theme":"shadow-sage","theme_runtime":"themes/shadow-sage-palette.js","components":["header_navigation","footer","hero","floating_toolbar","foldable","floating_window","contextual_help","document_list","document_table","kpi_grid"],"component_configs":{"floating_toolbar":"toolbar-full.json","floating_window":"floating-window.json"},"defaults":{"dominant_color":"green","hero_variant":"standard","hero_height_limit":"25vh","content_width_desktop":"80vw","foldable_sections":true,"contextual_help":true,"toolbar_profile":"full_then_disable"},"palette_examples":{"green":"#216E51","blue":"#316D9A","purple":"#6D4C91","pink":"#A34F78","teal":"#24756E"},"project_overrides_allowed":true,"recommended_for":["documentation_site","technical_site","compact_application","assistant_generated_site"]},
-  "dictionnaire_donnees":{"generated_from_schema":"SCH_ARTIFACT","note":"Preset migré vers Metadata V2; les valeurs visuelles restent des exemples/choix de preset."}
+  "metadata": {
+    "id": "PRESET_SHADOW_SAGE_FULL",
+    "json_type": "framework_preset",
+    "scope": "framework",
+    "schema_id": "SCH_ARTIFACT",
+    "artifact_version": "1.2.0",
+    "introduced_in": "1.1.2",
+    "status": "stable",
+    "date_creation": "2026-08-09",
+    "date_mise_a_jour": "2026-10-03",
+    "visibility": [
+      "dev"
+    ],
+    "supported_runtime_modes": [
+      "static",
+      "local",
+      "production"
+    ]
+  },
+  "Data": {
+    "name": "nLab Shadow Sage Full",
+    "description": "Preset prêt à l'emploi combinant Shadow Sage, palette générée depuis une couleur dominante, toolbar complète, sections repliables et fenêtres flottantes génériques.",
+    "theme": "shadow-sage",
+    "theme_runtime": "themes/shadow-sage-palette.js",
+    "components": [
+      "application_shell",
+      "header_navigation",
+      "footer",
+      "hero",
+      "floating_toolbar",
+      "foldable",
+      "floating_window",
+      "contextual_help",
+      "document_list",
+      "document_table",
+      "kpi_grid"
+    ],
+    "component_configs": {
+      "floating_toolbar": "toolbar-full.json",
+      "floating_window": "floating-window.json",
+      "application_shell": "application-shell.json"
+    },
+    "defaults": {
+      "dominant_color": "green",
+      "hero_variant": "standard",
+      "hero_height_limit": "25vh",
+      "content_width_desktop": "80vw",
+      "foldable_sections": true,
+      "contextual_help": true,
+      "toolbar_profile": "full_then_disable",
+      "application_shell_preferences": true
+    },
+    "palette_examples": {
+      "green": "#216E51",
+      "blue": "#316D9A",
+      "purple": "#6D4C91",
+      "pink": "#A34F78",
+      "teal": "#24756E"
+    },
+    "project_overrides_allowed": true,
+    "recommended_for": [
+      "documentation_site",
+      "technical_site",
+      "compact_application",
+      "assistant_generated_site"
+    ]
+  },
+  "dictionnaire_donnees": {
+    "generated_from_schema": "SCH_ARTIFACT",
+    "note": "Preset migré vers Metadata V2; les valeurs visuelles restent des exemples/choix de preset."
+  }
 }

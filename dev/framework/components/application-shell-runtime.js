@@ -3,35 +3,40 @@
   const root=document.documentElement;
   const body=document.body;
   const CONFIG=window.NLabAppShellConfig||{};
-  const STORE=CONFIG.storageKey||'nlab:application-shell:prefs:v1';
-  const WINSTORE=CONFIG.windowStorageKey||STORE+':windows';
-  const defaults={
+  const LEGACY_STORE=CONFIG.storageKey||'nlab:application-shell:prefs:v1';
+  const SHARED_STORE=CONFIG.sharedStorageKey||'nlab:application-shell:shared-prefs:v2';
+  const LOCAL_STORE=CONFIG.localStorageKey||'nlab:application-shell:local-prefs:v2';
+  const WINSTORE=CONFIG.windowStorageKey||LOCAL_STORE+':windows';
+  const sharedDefaults={
     theme:'auto',dominant_color:'',view:'cards',
-    header:{visible:true,shadow:true,compact:false,auto_hide:false,mode:'sticky'},
-    folds:{}
+    header:{visible:true,shadow:true,compact:false,auto_hide:false,mode:'sticky'}
   };
+  const localDefaults={folds:{}};
   const q=(s,r=document)=>r.querySelector(s),qa=(s,r=document)=>[...r.querySelectorAll(s)];
   const clone=v=>JSON.parse(JSON.stringify(v));
-  const load=(key,fallback)=>{try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):clone(fallback)}catch(_){return clone(fallback)}};
+  const loadRaw=key=>{try{const raw=localStorage.getItem(key);return raw?JSON.parse(raw):null}catch(_){return null}};
   const save=(key,value)=>{try{localStorage.setItem(key,JSON.stringify(value))}catch(_){}};
-  let prefs=Object.assign(clone(defaults),load(STORE,{}));
-  prefs.header=Object.assign(clone(defaults.header),prefs.header||{});
-  prefs.folds=Object.assign({},prefs.folds||{});
+  const legacy=loadRaw(LEGACY_STORE)||{};
+  let sharedPrefs=Object.assign(clone(sharedDefaults),legacy,loadRaw(SHARED_STORE)||{});
+  sharedPrefs.header=Object.assign(clone(sharedDefaults.header),legacy.header||{},sharedPrefs.header||{});
+  let localPrefs=Object.assign(clone(localDefaults),loadRaw(LOCAL_STORE)||{});
+  localPrefs.folds=Object.assign({},legacy.folds||{},localPrefs.folds||{});
+  save(SHARED_STORE,sharedPrefs);save(LOCAL_STORE,localPrefs);
   let z=Number(CONFIG.baseZIndex||120);
 
-  const effectiveTheme=()=>prefs.theme==='auto'
+  const effectiveTheme=()=>sharedPrefs.theme==='auto'
     ?(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light')
-    :prefs.theme;
+    :sharedPrefs.theme;
 
   function apply(){
     root.dataset.theme=effectiveTheme();
-    body.dataset.shellView=prefs.view||'cards';
-    body.dataset.shellHeaderMode=prefs.header.mode||'sticky';
-    body.classList.toggle('nlab-shell-header-hidden',prefs.header.visible===false);
-    body.classList.toggle('nlab-shell-header-no-shadow',prefs.header.shadow===false);
-    body.classList.toggle('nlab-shell-header-compact',!!prefs.header.compact);
-    if(prefs.dominant_color)root.style.setProperty('--nlab-brand',prefs.dominant_color);
-    qa('[data-shell-view]').forEach(el=>el.classList.toggle('active',el.dataset.shellView===prefs.view));
+    body.dataset.shellView=sharedPrefs.view||'cards';
+    body.dataset.shellHeaderMode=sharedPrefs.header.mode||'sticky';
+    body.classList.toggle('nlab-shell-header-hidden',sharedPrefs.header.visible===false);
+    body.classList.toggle('nlab-shell-header-no-shadow',sharedPrefs.header.shadow===false);
+    body.classList.toggle('nlab-shell-header-compact',!!sharedPrefs.header.compact);
+    if(sharedPrefs.dominant_color)root.style.setProperty('--nlab-brand',sharedPrefs.dominant_color);
+    qa('[data-shell-view]').forEach(el=>el.classList.toggle('active',el.dataset.shellView===sharedPrefs.view));
     qa('[data-shell-pref]').forEach(el=>{
       const key=el.dataset.shellPref;
       const value=readPref(key);
@@ -39,18 +44,23 @@
     });
     qa('[data-shell-fold-id]').forEach(el=>{
       const id=el.dataset.shellFoldId;
-      if(Object.hasOwn(prefs.folds,id))el.open=!!prefs.folds[id];
+      if(Object.hasOwn(localPrefs.folds,id))el.open=!!localPrefs.folds[id];
     });
   }
 
+  function isLocalPref(path){return String(path||'').startsWith('folds.')}
   function readPref(path){
-    return String(path||'').split('.').reduce((v,k)=>v&&v[k],prefs);
+    const source=isLocalPref(path)?localPrefs:sharedPrefs;
+    return String(path||'').split('.').reduce((v,k)=>v&&v[k],source);
   }
   function writePref(path,value){
+    const local=isLocalPref(path),target=local?localPrefs:sharedPrefs;
     const parts=String(path||'').split('.');
-    let node=prefs;
+    let node=target;
     while(parts.length>1){const k=parts.shift();node[k]=node[k]&&typeof node[k]==='object'?node[k]:{};node=node[k]}
-    node[parts[0]]=value;save(STORE,prefs);apply();
+    node[parts[0]]=value;
+    save(local?LOCAL_STORE:SHARED_STORE,target);
+    apply();
   }
 
   function bindPreferences(){
@@ -68,7 +78,9 @@
     });
     qa('[data-shell-header-restore]').forEach(el=>el.addEventListener('click',()=>writePref('header.visible',true)));
     qa('[data-shell-pref-reset]').forEach(el=>el.addEventListener('click',()=>{
-      prefs=clone(defaults);save(STORE,prefs);try{localStorage.removeItem(WINSTORE)}catch(_){}
+      sharedPrefs=clone(sharedDefaults);localPrefs=clone(localDefaults);
+      save(SHARED_STORE,sharedPrefs);save(LOCAL_STORE,localPrefs);
+      try{localStorage.removeItem(WINSTORE)}catch(_){}
       qa('[data-nlab-floating-window]').forEach(resetWindow);apply();
     }));
   }
@@ -77,13 +89,13 @@
     qa('[data-shell-fold-id]').forEach(el=>{
       if(el.dataset.nlabFoldReady)return;el.dataset.nlabFoldReady='1';
       const id=el.dataset.shellFoldId;
-      if(Object.hasOwn(prefs.folds,id))el.open=!!prefs.folds[id];
-      el.addEventListener('toggle',()=>{prefs.folds[id]=el.open;save(STORE,prefs)});
+      if(Object.hasOwn(localPrefs.folds,id))el.open=!!localPrefs.folds[id];
+      el.addEventListener('toggle',()=>{localPrefs.folds[id]=el.open;save(LOCAL_STORE,localPrefs)});
     });
     qa('[data-shell-fold-action]').forEach(el=>el.addEventListener('click',()=>{
       const open=el.dataset.shellFoldAction==='expand';
-      qa('[data-shell-fold-id]').forEach(d=>{d.open=open;prefs.folds[d.dataset.shellFoldId]=open});
-      save(STORE,prefs);
+      qa('[data-shell-fold-id]').forEach(d=>{d.open=open;localPrefs.folds[d.dataset.shellFoldId]=open});
+      save(LOCAL_STORE,localPrefs);
     }));
   }
 
@@ -145,7 +157,7 @@
   function bindAutoHide(){
     let last=scrollY;
     addEventListener('scroll',()=>{
-      if(!prefs.header.auto_hide||prefs.header.mode==='static'||prefs.header.visible===false){
+      if(!sharedPrefs.header.auto_hide||sharedPrefs.header.mode==='static'||sharedPrefs.header.visible===false){
         body.classList.remove('nlab-shell-header-auto-hidden');last=scrollY;return;
       }
       const y=scrollY,down=y>last+5;
@@ -159,10 +171,23 @@
 
   function boot(){
     apply();bindPreferences();bindFoldables();bindWindows();bindAutoHide();bindKeyboard();
-    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(prefs.theme==='auto')apply()});
-    document.dispatchEvent(new CustomEvent('nlab:application-shell-ready',{detail:{prefs}}));
+    matchMedia('(prefers-color-scheme: dark)').addEventListener?.('change',()=>{if(sharedPrefs.theme==='auto')apply()});
+    addEventListener('storage',e=>{
+      if(e.key===SHARED_STORE){
+        const next=loadRaw(SHARED_STORE)||{};
+        sharedPrefs=Object.assign(clone(sharedDefaults),next);
+        sharedPrefs.header=Object.assign(clone(sharedDefaults.header),next.header||{});
+        apply();
+      }
+    });
+    document.dispatchEvent(new CustomEvent('nlab:application-shell-ready',{detail:{preferences:{...clone(sharedPrefs),folds:clone(localPrefs.folds)}}}));
   }
 
-  window.NLabApplicationShell={boot,apply,get preferences(){return clone(prefs)},setPreference:writePref,resetWindow};
+  window.NLabApplicationShell={
+    boot,apply,
+    get preferences(){return {...clone(sharedPrefs),folds:clone(localPrefs.folds)}},
+    setPreference:writePref,
+    resetWindow
+  };
   if(document.readyState==='loading')document.addEventListener('DOMContentLoaded',boot);else boot();
 })();

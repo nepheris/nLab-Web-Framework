@@ -74,6 +74,13 @@
         "dynamic_version_source": true,
         "show_build_ref": true,
         "expandable_inventory": true
+      },
+      "visual_media_slot": {
+        "mode": "PLACEHOLDER",
+        "cards": "show_medium",
+        "gallery": "show_large",
+        "list": "hide_or_compact",
+        "theme_binding": "currentColor"
       }
     },
     "business_slots": [
@@ -82,7 +89,8 @@
       "navigation",
       "cards",
       "optional_kpis",
-      "release_metadata"
+      "release_metadata",
+      "visual_media"
     ]
   },
   "dictionnaire_donnees": {

@@ -99,7 +99,7 @@
     }));
   }
 
-  const windowState=()=>load(WINSTORE,{});
+  const windowState=()=>loadRaw(WINSTORE)||{};
   function bringFront(w){w.style.zIndex=String(++z)}
   function saveWindow(w){
     const all=windowState(),r=w.getBoundingClientRect();
